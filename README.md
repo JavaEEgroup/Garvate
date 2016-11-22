@@ -1,4 +1,6 @@
 # Garvate
 Gather Inovation
 
-## 锐哥快请客吃饭啊，回回来
+## 南小鸟镇楼没有Bug
+
+![image](https://github.com/JavaEEgroup/Garvate/raw/master/KotoriMinami.jpeg)
