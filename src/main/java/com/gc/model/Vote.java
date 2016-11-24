@@ -2,12 +2,13 @@ package com.gc.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "vote")
 public class Vote {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private long id;
 
@@ -30,4 +31,8 @@ public class Vote {
 
     @OneToOne
     private Article article;
+
+    @JoinColumn(name = "vote_id")
+    @OneToMany
+    private List<VoteItem> voteItemList;
 }

@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "article")
 public class Article {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private long id;
 
@@ -33,14 +33,19 @@ public class Article {
     private String view_count;
 
 
+    @JoinColumn(name = "user_id")
     @ManyToOne
     private User user;
 
 
-    @ManyToMany(targetEntity = Tag.class)
-    private List tagList;
+    @ManyToMany(mappedBy = "articleList")
+    private List<Tag> tagList;
 
 
     @OneToOne
     private Vote vote;
+
+    @JoinColumn(name = "article_id")
+    @OneToMany
+    private List<Comment> commentList;
 }

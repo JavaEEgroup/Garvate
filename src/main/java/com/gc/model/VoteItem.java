@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "vote_item")
 public class VoteItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private long id;
 
@@ -19,6 +19,7 @@ public class VoteItem {
     private int rank;
 
 
+    @JoinColumn(name = "vote_id")
     @ManyToOne
     private Vote vote;
 }

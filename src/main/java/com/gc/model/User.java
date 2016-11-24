@@ -1,6 +1,7 @@
 package com.gc.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -8,7 +9,7 @@ import java.util.List;
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
     private long id;
 
@@ -41,6 +42,26 @@ public class User {
     private Major major;
 
 
-    @ManyToMany(targetEntity = Tag.class)
-    private List tagList;
+    @ManyToMany(mappedBy = "userList")
+    private List<Tag> tagList;
+
+    @JoinColumn(name = "captain_id")
+    @OneToMany
+    private List<Team> captainTeamList;
+
+    @JoinColumn(name = "member_user_id")
+    @OneToMany
+    private List<TeamUser> teamUserList;
+
+    @JoinColumn(name = "user_id")
+    @OneToMany
+    private List<Article> articleList;
+
+    @JoinColumn(name = "to_user_id")
+    @OneToMany
+    private List<Comment> toCommentList;
+
+    @JoinColumn(name = "from_user_id")
+    @OneToMany
+    private List<Comment> fromCommentList;
 }
