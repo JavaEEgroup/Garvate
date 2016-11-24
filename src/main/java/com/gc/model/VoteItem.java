@@ -16,7 +16,7 @@ public class VoteItem {
 
 
     @Column(name = "rank", nullable = false)
-    private int rank;
+    private Integer rank;
 
 
     @JoinColumn(name = "vote_id")

@@ -31,7 +31,7 @@ public class Team {
     private Timestamp updateTime;
 
     @Column(name = "max_count", nullable = false)
-    private int maxCount;
+    private Integer maxCount;
 
     //true为开放 false为关闭
     @Column(name="state",nullable = false)

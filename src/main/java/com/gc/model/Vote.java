@@ -22,11 +22,11 @@ public class Vote {
 
 
     @Column(name = "max", nullable = false)
-    private int max;
+    private Integer max;
 
 
     @Column(name = "min", nullable = false)
-    private int min;
+    private Integer min;
 
 
     @OneToOne

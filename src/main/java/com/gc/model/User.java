@@ -35,7 +35,7 @@ public class User {
 
 
     @Column(name = "type")
-    private int type;
+    private Integer type;
 
 
     @ManyToOne
