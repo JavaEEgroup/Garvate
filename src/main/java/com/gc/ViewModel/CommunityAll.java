@@ -42,11 +42,11 @@ public class CommunityAll {
 class CommunityAllChild {
 
     private String title;
-    private Integer id;
-    private Integer user_id;
+    private Long id;
+    private Long user_id;
     private String user_name;
     private Integer view_count;
-    private Integer vote_id;
+    private Long vote_id;
     private AbstractList<String> tag;
     private String create_time;
     private String update_time;
@@ -89,11 +89,11 @@ class CommunityAllChild {
         this.tag = tag;
     }
 
-    public Integer getVote_id() {
+    public Long getVote_id() {
         return vote_id;
     }
 
-    public void setVote_id(Integer vote_id) {
+    public void setVote_id(Long vote_id) {
         this.vote_id = vote_id;
     }
 
@@ -105,19 +105,19 @@ class CommunityAllChild {
         this.title = title;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(Integer user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 

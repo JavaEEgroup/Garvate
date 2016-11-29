@@ -9,7 +9,7 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
-    private Integer id;
+    private Long id;
 
 
     @Column(name = "description", nullable = false)
@@ -25,11 +25,11 @@ public class Tag {
     @ManyToMany(mappedBy = "tagList")
     private List<Team> teamList;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

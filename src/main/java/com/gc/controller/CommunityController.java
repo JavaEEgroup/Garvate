@@ -1,9 +1,11 @@
 package com.gc.controller;
 
 import com.gc.ViewModel.CommunityAll;
-import com.gc.db.ArticleRepository;
+import com.gc.ViewModel.CommunityDetails;
+import com.gc.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,5 +24,13 @@ public class CommunityController {
         return communityAll;
     }
 
+    @RequestMapping(value = "/details")
+    private CommunityDetails details(@RequestParam(value = "id")Integer id) {
+
+        CommunityDetails communityDetails = new CommunityDetails(0);
+
+
+        return communityDetails;
+    }
 
 }
