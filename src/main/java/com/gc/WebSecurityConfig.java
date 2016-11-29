@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.
                 jdbcAuthentication().
-                dataSource((javax.sql.DataSource) this.dataSource)
+                dataSource(this.dataSource)
                 .usersByUsernameQuery("SELECT account, password,enabled " +
                         "From user WHERE account = ?")
                 .authoritiesByUsernameQuery("SELECT account, password " +

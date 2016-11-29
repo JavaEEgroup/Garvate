@@ -15,33 +15,13 @@ public class Tag {
     @Column(name = "description", nullable = false)
     private String description;
 
-
-//    @ManyToMany(targetEntity = User.class)
-//    private List userList;
-
-    @ManyToMany
-    @JoinTable(
-            name="tag_user",
-            inverseJoinColumns = @JoinColumn(name = "user_id"),
-            joinColumns = @JoinColumn(name = "tag_id"))
+    @ManyToMany(mappedBy = "tagList")
     private List<User> userList;
 
-//    @ManyToMany(targetEntity = Article.class)
-//    private List articleList;
 
-    @ManyToMany
-    @JoinTable(
-            name="tag_article",
-            inverseJoinColumns = @JoinColumn(name = "article_id"),
-            joinColumns = @JoinColumn(name = "tag_id"))
+    @ManyToMany(mappedBy = "tagList")
     private List<Article> articleList;
 
-//    @ManyToMany(targetEntity = Team.class)
-//    private List teamList;
-    @ManyToMany
-    @JoinTable(
-            name="tag_team",
-            inverseJoinColumns = @JoinColumn(name = "team_id"),
-            joinColumns = @JoinColumn(name = "tag_id"))
+    @ManyToMany(mappedBy = "tagList")
     private List<Team> teamList;
 }

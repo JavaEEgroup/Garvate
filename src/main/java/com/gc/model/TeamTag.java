@@ -2,12 +2,9 @@ package com.gc.model;
 
 import javax.persistence.*;
 
-/**
- * Created by zihe on 2016/11/24.
- */
 @Entity
-@Table(name = "tag_article")
-public class TagArticle {
+@Table(name = "team_tag")
+public class TeamTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)

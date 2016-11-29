@@ -38,7 +38,11 @@ public class Article {
     private User user;
 
 
-    @ManyToMany(mappedBy = "articleList")
+    @ManyToMany
+    @JoinTable(
+            name="article_tag",
+            inverseJoinColumns = @JoinColumn(name = "tag_id"),
+            joinColumns = @JoinColumn(name = "article_id"))
     private List<Tag> tagList;
 
 

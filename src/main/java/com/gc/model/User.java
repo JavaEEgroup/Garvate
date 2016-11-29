@@ -18,7 +18,7 @@ public class User {
     private String account;
 
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
 
@@ -166,7 +166,11 @@ public class User {
     private Major major;
 
 
-    @ManyToMany(mappedBy = "userList")
+    @ManyToMany
+    @JoinTable(
+            name="user_tag",
+            inverseJoinColumns = @JoinColumn(name = "tag_id"),
+            joinColumns = @JoinColumn(name = "user_id"))
     private List<Tag> tagList;
 
     @JoinColumn(name = "captain_id")
