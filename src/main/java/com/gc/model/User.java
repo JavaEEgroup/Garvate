@@ -1,7 +1,6 @@
 package com.gc.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -11,7 +10,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
-    private long id;
+    private Integer id;
 
 
     @Column(name = "account", nullable = false)
@@ -22,11 +21,11 @@ public class User {
     private String username;
 
 
-    public long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
