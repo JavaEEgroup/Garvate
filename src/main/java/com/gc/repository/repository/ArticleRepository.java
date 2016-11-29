@@ -1,4 +1,4 @@
-package com.gc.repository;
+package com.gc.repository.repository;
 
 import com.gc.model.Article;
 import org.springframework.data.jpa.repository.JpaRepository;

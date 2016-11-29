@@ -3,7 +3,7 @@ package com.gc.controller;
 import com.gc.Utils.Config;
 import com.gc.Utils.Utils;
 import com.gc.model.User;
-import com.gc.repository.UserRepository;
+import com.gc.repository.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;

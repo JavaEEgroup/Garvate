@@ -4,15 +4,14 @@ import com.gc.Utils.Utils;
 import com.gc.model.Tag;
 import com.gc.model.Team;
 import com.gc.model.User;
-import com.gc.repository.TagRespository;
-import com.gc.repository.TeamRepository;
-import com.gc.repository.UserRepository;
+import com.gc.repository.repository.TagRepository;
+import com.gc.repository.repository.TeamRepository;
+import com.gc.repository.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +23,7 @@ public class TeamController {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private TagRespository tagRespository;
+    private TagRepository tagRepository;
 
     @RequestMapping(value = "/team/add",method = RequestMethod.POST)
     @ResponseBody
@@ -42,11 +41,13 @@ public class TeamController {
             User captain = userRepository.findByAccount(user_account);
             team.setCaptain(captain);
 
-            List<Tag> tags = new ArrayList<>();
-            for (Long tagID : tagIDs) {
-                Tag tag = tagRespository.findOne(tagID);
-                tags.add(tag);
-            }
+//            List<Tag> tags = new ArrayList<>();
+//            for (Long tagID : tagIDs) {
+//                Tag tag = tagRepository.findOne(tagID);
+//                tags.add(tag);
+//            }
+
+            List<Tag> tags = tagRepository.getTagsByTagIDs(tagIDs);
             team.setTagList(tags);
 
             teamRepository.save(team);
