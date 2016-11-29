@@ -20,7 +20,6 @@ public class UserController {
     @RequestMapping(value = "/login_success")
     @ResponseBody
     public HashMap<String,String> login_success(HttpServletRequest request) {
-//        String user_account =  request.getRemoteUser();
         return Utils.getStateMessage(Config.STATE_SUCCESS);
     }
 

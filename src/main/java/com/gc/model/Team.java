@@ -21,12 +21,9 @@ public class Team {
     @Column(name = "description", nullable = false)
     private String description;
 
-
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time", nullable = false)
     private Timestamp createTime;
 
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time", nullable = false)
     private Timestamp updateTime;
 
@@ -61,6 +58,10 @@ public class Team {
         this.maxCount = maxCount;
         this.createTime = createTime;
         this.updateTime = updateTime;
+    }
+
+    public int getCurrentCount() {
+        return teamUserList.size() + 1;
     }
 
     public Long getId() {

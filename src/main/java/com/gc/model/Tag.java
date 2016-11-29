@@ -18,7 +18,6 @@ public class Tag {
     @ManyToMany(mappedBy = "tagList")
     private List<User> userList;
 
-
     @ManyToMany(mappedBy = "tagList")
     private List<Article> articleList;
 
