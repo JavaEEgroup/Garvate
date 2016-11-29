@@ -69,8 +69,7 @@ class TeamDetailInf{
         this.captain_id = team.getCaptain().getId();
 
         this.max_count = team.getMaxCount();
-        List<TeamUser> users = team.getTeamUserList();
-        this.current_count = users.size() + 1;
+        this.current_count = team.getCurrentCount();
 
         this.create_time = team.getCreateTime().toString();
         this.update_time = team.getUpdateTime().toString();
@@ -84,6 +83,7 @@ class TeamDetailInf{
         this.tags.addAll(team.getTagList().stream().map(Tag::getDescription).collect(Collectors.toList()));
 
         this.team_members =  new ArrayList<>();
+        List<TeamUser> users = team.getTeamUserList();
         this.team_members.addAll(users.stream().map(TeamMember::new).collect(Collectors.toList()));
     }
 

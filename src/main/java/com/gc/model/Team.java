@@ -1,5 +1,7 @@
 package com.gc.model;
 
+import com.gc.Utils.Config;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -61,7 +63,13 @@ public class Team {
     }
 
     public int getCurrentCount() {
-        return teamUserList.size() + 1;
+        int result = 1;
+        for (TeamUser teamUser : this.teamUserList) {
+            if (teamUser.getState().getDescription().equals(Config.TEAM_STATE_INTEAM)) {
+                ++result;
+            }
+        }
+        return result;
     }
 
     public Long getId() {
