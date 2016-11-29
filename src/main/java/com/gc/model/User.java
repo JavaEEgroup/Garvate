@@ -21,6 +21,60 @@ public class User {
     private String username;
 
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
+
+    @Column(name = "phone")
+    private String phone;
+
+
+    @Column(name = "email")
+    private String email;
+
+
+    @Column(name = "type")
+    private Integer type;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
+
+
+    @ManyToOne
+    private Major major;
+
+
+    @ManyToMany
+    @JoinTable(
+            name="user_tag",
+            inverseJoinColumns = @JoinColumn(name = "tag_id"),
+            joinColumns = @JoinColumn(name = "user_id"))
+    private List<Tag> tagList;
+
+    @JoinColumn(name = "captain_id")
+    @OneToMany
+    private List<Team> captainTeamList;
+
+    @JoinColumn(name = "member_user_id")
+    @OneToMany
+    private List<TeamUser> teamUserList;
+
+    @JoinColumn(name = "user_id")
+    @OneToMany
+    private List<Article> articleList;
+
+    @JoinColumn(name = "to_user_id")
+    @OneToMany
+    private List<Comment> toCommentList;
+
+    @JoinColumn(name = "from_user_id")
+    @OneToMany
+    private List<Comment> fromCommentList;
+
+    @ManyToMany(mappedBy = "userList")
+    private List<VoteItem> voteItemList;
+
+
     public Long getId() {
         return id;
     }
@@ -141,54 +195,11 @@ public class User {
         this.fromCommentList = fromCommentList;
     }
 
-    @Column(name = "password", nullable = false)
+    public List<VoteItem> getVoteItemList() {
+        return voteItemList;
+    }
 
-    private String password;
-
-
-    @Column(name = "phone")
-    private String phone;
-
-
-    @Column(name = "email")
-    private String email;
-
-
-    @Column(name = "type")
-    private Integer type;
-
-    @Column(name = "enabled")
-    private Boolean enabled;
-
-
-    @ManyToOne
-    private Major major;
-
-
-    @ManyToMany
-    @JoinTable(
-            name="user_tag",
-            inverseJoinColumns = @JoinColumn(name = "tag_id"),
-            joinColumns = @JoinColumn(name = "user_id"))
-    private List<Tag> tagList;
-
-    @JoinColumn(name = "captain_id")
-    @OneToMany
-    private List<Team> captainTeamList;
-
-    @JoinColumn(name = "member_user_id")
-    @OneToMany
-    private List<TeamUser> teamUserList;
-
-    @JoinColumn(name = "user_id")
-    @OneToMany
-    private List<Article> articleList;
-
-    @JoinColumn(name = "to_user_id")
-    @OneToMany
-    private List<Comment> toCommentList;
-
-    @JoinColumn(name = "from_user_id")
-    @OneToMany
-    private List<Comment> fromCommentList;
+    public void setVoteItemList(List<VoteItem> voteItemList) {
+        this.voteItemList = voteItemList;
+    }
 }

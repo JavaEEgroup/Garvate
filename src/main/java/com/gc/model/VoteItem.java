@@ -1,6 +1,7 @@
 package com.gc.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "vote_item")
@@ -22,6 +23,13 @@ public class VoteItem {
     @JoinColumn(name = "vote_id")
     @ManyToOne
     private Vote vote;
+
+    @ManyToMany
+    @JoinTable(
+            name="vote_item_user",
+            inverseJoinColumns = @JoinColumn(name = "user_id"),
+            joinColumns = @JoinColumn(name = "vote_item_id"))
+    private List<User> userList;
 
     public Long getId() {
         return id;
@@ -53,5 +61,13 @@ public class VoteItem {
 
     public void setVote(Vote vote) {
         this.vote = vote;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
     }
 }
