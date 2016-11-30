@@ -94,7 +94,7 @@ public class TeamController {
             TeamState teamState = teamStateRepository.getByDescription(Config.TEAM_STATE_APPLY);
 
             TeamUser teamUser = new TeamUser();
-            teamUser.setMemeber(user);
+            teamUser.setMember(user);
             teamUser.setTeam(team);
             teamUser.setState(teamState);
             teamUserRepository.save(teamUser);
@@ -104,6 +104,122 @@ public class TeamController {
             return Utils.getStateMessage("2");
         }
     }
+
+    @RequestMapping(value = "team/member/dealWithApply",method = RequestMethod.POST)
+    public HashMap<String,String> dealWithApply(HttpServletRequest request,
+                                                @RequestParam(value = "team_id")Long teamId,
+                                                @RequestParam(value = "apply_user_id")Long applyUserId,
+                                                @RequestParam(value = "state")boolean state){
+        try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+            Team team = teamRepository.findOne(teamId);
+            if (Objects.equals(user.getId(), applyUserId)
+                    || !Objects.equals(user.getId(), team.getCaptain().getId())) {
+                return Utils.getStateMessage("2");
+            }
+            User applyUser = userRepository.findOne(applyUserId);
+
+            TeamState teamState;
+            if (state) {
+                teamState = teamStateRepository.getByDescription(Config.TEAM_STATE_INTEAM);
+            } else {
+                teamState = teamStateRepository.getByDescription(Config.TEAM_STATE_APPLYFAIL);
+            }
+            TeamUser teamUser = teamUserRepository.findByMemberAndTeam(applyUser, team);
+            teamUser.setState(teamState);
+            teamUserRepository.save(teamUser);
+            return Utils.getStateMessage("0");
+        } catch (Exception exception) {
+            return Utils.getStateMessage("2");
+        }
+
+    }
+
+    @RequestMapping(value = "/team/member/invite", method = RequestMethod.POST)
+    public HashMap<String, String> inviteMember(HttpServletRequest request,
+                                               @RequestParam(value = "team_id")Long teamId,
+                                                @RequestParam(value = "invite_user_id")Long inviteUserId) {
+        try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+            Team team = teamRepository.findOne(teamId);
+            if (!Objects.equals(user.getId(), team.getCaptain().getId())
+                    || team.getCurrentCount() >= team.getMaxCount()
+                    || Objects.equals(user.getId(), inviteUserId)) {
+                return Utils.getStateMessage("2");
+            }
+            User invite_user = userRepository.findOne(inviteUserId);
+            TeamState teamState = teamStateRepository.getByDescription(Config.TEAM_STATE_INVITE);
+
+            TeamUser teamUser = new TeamUser();
+            teamUser.setMember(invite_user);
+            teamUser.setTeam(team);
+            teamUser.setState(teamState);
+            teamUserRepository.save(teamUser);
+
+            return Utils.getStateMessage("0");
+        } catch (Exception exception) {
+            return Utils.getStateMessage("2");
+        }
+    }
+
+    @RequestMapping(value = "/team/member/dealWithInvite",method = RequestMethod.POST)
+    public HashMap<String,String> dealWithInvite(HttpServletRequest request,
+                                                @RequestParam(value = "team_id")Long teamId,
+                                                @RequestParam(value = "state")boolean state){
+        try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+            Team team = teamRepository.findOne(teamId);
+            if (Objects.equals(user.getId(), team.getCaptain().getId())) {
+                return Utils.getStateMessage("2");
+            }
+            TeamState teamState;
+            if (state) {
+                teamState = teamStateRepository.getByDescription(Config.TEAM_STATE_INTEAM);
+            } else {
+                teamState = teamStateRepository.getByDescription(Config.TEAM_STATE_INVITEFAIL);
+            }
+            TeamUser teamUser = teamUserRepository.findByMemberAndTeam(user, team);
+            teamUser.setState(teamState);
+            teamUserRepository.save(teamUser);
+            return Utils.getStateMessage("0");
+        } catch (Exception exception) {
+            return Utils.getStateMessage("2");
+        }
+
+    }
+
+    @RequestMapping(value = "/team/delete", method = RequestMethod.POST)
+    public HashMap<String, String> delete(HttpServletRequest request,
+                                          @RequestParam(value = "team_id")Long teamId) {
+        try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+            Team team = teamRepository.findOne(teamId);
+            if(!Objects.equals(user.getId(), team.getCaptain().getId())){
+                return Utils.getStateMessage("2");
+            }
+            teamRepository.delete(team);
+            return Utils.getStateMessage("0");
+
+        } catch (Exception exception) {
+            return Utils.getStateMessage("2");
+        }
+    }
+
+    @RequestMapping(value = "/team/search")
+    public TeamAll search(@RequestParam(value = "tag_desc",defaultValue = "") String tagDesc,
+                                    @RequestParam(value = "username",defaultValue = "") String username,
+                                    @RequestParam(value = "key",defaultValue = "")String key,
+                                    @RequestParam(value = "numResults",defaultValue = "20")int numResults,
+                                    @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
+        return new TeamAll(0,teamRepository.findTeamsByTagDescription(new PageRequest(resultOffset,numResults), tagDesc,username,key));
+    }
+
+
+
 
     @RequestMapping(value = "/team/test")
     public HashMap<String,TeamState> getTeamState() {

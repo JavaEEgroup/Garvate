@@ -48,7 +48,7 @@ public class Team {
     private List<Tag> tagList;
 
     @JoinColumn(name = "team_id")
-    @OneToMany
+    @OneToMany(cascade={CascadeType.REMOVE})
     private List<TeamUser> teamUserList;
 
     public Team(){
@@ -64,6 +64,9 @@ public class Team {
 
     public int getCurrentCount() {
         int result = 1;
+        if (this.teamUserList == null) {
+            return result;
+        }
         for (TeamUser teamUser : this.teamUserList) {
             if (teamUser.getState().getDescription().equals(Config.TEAM_STATE_INTEAM)) {
                 ++result;
