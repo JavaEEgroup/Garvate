@@ -29,12 +29,25 @@ public class Vote {
     private Integer min;
 
 
-    @OneToOne
+    @OneToOne(mappedBy = "vote")
     private Article article;
 
+//    @JoinColumn(name = "vote_id")
+//    @OneToMany
     @JoinColumn(name = "vote_id")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<VoteItem> voteItemList;
+
+    public Vote() {
+
+    }
+
+    public Vote(String title, String description, Integer max, Integer min) {
+        this.title = title;
+        this.description = description;
+        this.max = max;
+        this.min = min;
+    }
 
     public Long getId() {
         return id;

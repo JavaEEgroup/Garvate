@@ -1,6 +1,7 @@
 package com.gc.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "comment")
@@ -16,7 +17,7 @@ public class Comment {
 
 
     @Column(name = "create_time")
-    private String create_time;
+    private Timestamp create_time;
 
 
     @JoinColumn(name = "to_user_id")
@@ -50,11 +51,11 @@ public class Comment {
         this.content = content;
     }
 
-    public String getCreate_time() {
+    public Timestamp getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(String create_time) {
+    public void setCreate_time(Timestamp create_time) {
         this.create_time = create_time;
     }
 

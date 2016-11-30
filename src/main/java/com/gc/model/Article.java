@@ -1,6 +1,7 @@
 package com.gc.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -22,11 +23,11 @@ public class Article {
 
 
     @Column(name = "create_time")
-    private String create_time;
+    private Timestamp create_time;
 
 
     @Column(name = "update_time")
-    private String update_time;
+    private Timestamp update_time;
 
 
     @Column(name = "view_count")
@@ -46,12 +47,24 @@ public class Article {
     private List<Tag> tagList;
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Vote vote;
 
     @JoinColumn(name = "article_id")
     @OneToMany
     private List<Comment> commentList;
+
+    public Article() {
+
+    }
+
+    public Article(String title, String content, Timestamp create_time) {
+        this.title = title;
+        this.content = content;
+        this.create_time = create_time;
+        this.update_time = create_time;
+        this.view_count = 0;
+    }
 
     public Long getId() {
         return id;
@@ -77,19 +90,19 @@ public class Article {
         this.content = content;
     }
 
-    public String getCreate_time() {
+    public Timestamp getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(String create_time) {
+    public void setCreate_time(Timestamp create_time) {
         this.create_time = create_time;
     }
 
-    public String getUpdate_time() {
+    public Timestamp getUpdate_time() {
         return update_time;
     }
 
-    public void setUpdate_time(String update_time) {
+    public void setUpdate_time(Timestamp update_time) {
         this.update_time = update_time;
     }
 

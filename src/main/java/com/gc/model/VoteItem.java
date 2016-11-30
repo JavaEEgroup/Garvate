@@ -31,6 +31,15 @@ public class VoteItem {
             joinColumns = @JoinColumn(name = "vote_item_id"))
     private List<User> userList;
 
+    public VoteItem() {
+
+    }
+
+    public VoteItem(String title, Integer rank) {
+        this.title = title;
+        this.rank = rank;
+    }
+
     public Long getId() {
         return id;
     }

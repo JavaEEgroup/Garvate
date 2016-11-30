@@ -1,10 +1,11 @@
-package com.gc.ViewModel;
+package com.gc.ViewModel.community;
 
 import com.gc.model.Comment;
 import com.gc.model.User;
 import com.gc.model.Vote;
 import com.gc.model.VoteItem;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 /**
@@ -122,7 +123,7 @@ class CommunityComment {
     private String content;
     private Long user_id;
     private String user_name;
-    private String create_time;
+    private Timestamp create_time;
     private ArrayList<CommunityRecomment> recomments;
 
 
@@ -167,11 +168,11 @@ class CommunityComment {
         this.user_name = user_name;
     }
 
-    public String getCreate_time() {
+    public Timestamp getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(String create_time) {
+    public void setCreate_time(Timestamp create_time) {
         this.create_time = create_time;
     }
 
@@ -190,7 +191,7 @@ class CommunityRecomment {
     private String content;
     private Long user_id;
     private String user_name;
-    private String create_time;
+    private Timestamp create_time;
     private Long to_user_id;
     private String to_user_name;
 
@@ -238,11 +239,11 @@ class CommunityRecomment {
         this.user_name = user_name;
     }
 
-    public String getCreate_time() {
+    public Timestamp getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(String create_time) {
+    public void setCreate_time(Timestamp create_time) {
         this.create_time = create_time;
     }
 
