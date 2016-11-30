@@ -1,5 +1,7 @@
 package com.gc.model;
 
+import com.gc.Utils.Config;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -21,12 +23,9 @@ public class Team {
     @Column(name = "description", nullable = false)
     private String description;
 
-
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_time", nullable = false)
     private Timestamp createTime;
 
-//    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "update_time", nullable = false)
     private Timestamp updateTime;
 
@@ -61,6 +60,16 @@ public class Team {
         this.maxCount = maxCount;
         this.createTime = createTime;
         this.updateTime = updateTime;
+    }
+
+    public int getCurrentCount() {
+        int result = 1;
+        for (TeamUser teamUser : this.teamUserList) {
+            if (teamUser.getState().getDescription().equals(Config.TEAM_STATE_INTEAM)) {
+                ++result;
+            }
+        }
+        return result;
     }
 
     public Long getId() {

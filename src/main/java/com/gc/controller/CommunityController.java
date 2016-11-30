@@ -2,7 +2,7 @@ package com.gc.controller;
 
 import com.gc.ViewModel.CommunityAll;
 import com.gc.ViewModel.CommunityDetails;
-import com.gc.repository.ArticleRepository;
+import com.gc.repository.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

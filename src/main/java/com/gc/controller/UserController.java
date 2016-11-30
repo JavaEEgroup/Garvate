@@ -3,7 +3,7 @@ package com.gc.controller;
 import com.gc.Utils.Config;
 import com.gc.Utils.Utils;
 import com.gc.model.User;
-import com.gc.repository.UserRepository;
+import com.gc.repository.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,6 @@ public class UserController {
     @RequestMapping(value = "/login_success")
     @ResponseBody
     public HashMap<String,String> login_success(HttpServletRequest request) {
-//        String user_account =  request.getRemoteUser();
         return Utils.getStateMessage(Config.STATE_SUCCESS);
     }
 

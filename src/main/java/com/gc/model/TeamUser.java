@@ -3,7 +3,9 @@ package com.gc.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "team_user")
+@Table(name = "team_user",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_user_id","team_id"})
+})
 public class TeamUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
