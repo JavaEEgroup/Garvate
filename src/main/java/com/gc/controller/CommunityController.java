@@ -29,7 +29,6 @@ public class CommunityController {
 
         CommunityDetails communityDetails = new CommunityDetails(0);
 
-
         return communityDetails;
     }
 

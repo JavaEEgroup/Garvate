@@ -1,5 +1,7 @@
 package com.gc.ViewModel;
 
+import com.gc.model.Comment;
+import com.gc.model.User;
 import com.gc.model.Vote;
 import com.gc.model.VoteItem;
 
@@ -116,5 +118,148 @@ class CommunityVotes {
 
 class CommunityComment {
 
-    
+    private Long comment_id;
+    private String content;
+    private Long user_id;
+    private String user_name;
+    private String create_time;
+    private ArrayList<CommunityRecomment> recomments;
+
+
+    public CommunityComment(Comment comment) {
+        this.comment_id = comment.getId();
+        this.content = comment.getContent();
+        User from_user = comment.getFromUser();
+        this.user_id = from_user.getId();
+        this.user_name = from_user.getUsername();
+        this.create_time = comment.getCreate_time();
+        for(Comment recomment : comment.get)
+    }
+
+    public Long getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(Long comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    public ArrayList<CommunityRecomment> getRecomments() {
+        return recomments;
+    }
+
+    public void setRecomments(ArrayList<CommunityRecomment> recomments) {
+        this.recomments = recomments;
+    }
+}
+
+class CommunityRecomment {
+
+    private Long comment_id;
+    private String content;
+    private Long user_id;
+    private String user_name;
+    private String create_time;
+    private Long to_user_id;
+    private String to_user_name;
+
+    public CommunityRecomment(Comment comment) {
+        this.comment_id = comment.getId();
+        this.content = comment.getContent();
+        User from_user = comment.getFromUser();
+        this.user_id = from_user.getId();
+        this.user_name = from_user.getUsername();
+        this.create_time = comment.getCreate_time();
+        User to_user = comment.getToUser();
+        this.to_user_id = to_user.getId();
+        this.to_user_name = to_user.getUsername();
+    }
+
+    public Long getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(Long comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    public Long getTo_user_id() {
+        return to_user_id;
+    }
+
+    public void setTo_user_id(Long to_user_id) {
+        this.to_user_id = to_user_id;
+    }
+
+    public String getTo_user_name() {
+        return to_user_name;
+    }
+
+    public void setTo_user_name(String to_user_name) {
+        this.to_user_name = to_user_name;
+    }
 }
