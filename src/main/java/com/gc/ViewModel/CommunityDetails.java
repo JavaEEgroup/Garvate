@@ -133,7 +133,6 @@ class CommunityComment {
         this.user_id = from_user.getId();
         this.user_name = from_user.getUsername();
         this.create_time = comment.getCreate_time();
-        for(Comment recomment : comment.get)
     }
 
     public Long getComment_id() {
