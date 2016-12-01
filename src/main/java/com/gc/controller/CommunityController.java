@@ -233,7 +233,7 @@ public class CommunityController {
     @RequestMapping(value = "/search")
     public CommunityAll search(@RequestParam(value = "tag_desc",defaultValue = "") String tagDesc,
                           @RequestParam(value = "username",defaultValue = "") String username,
-                          @RequestParam(value = "key",defaultValue = "")String key,
+                          @RequestParam(value = "key",defaultValue = "!@#")String key,
                           @RequestParam(value = "numResults",defaultValue = "20")int numResults,
                           @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
 

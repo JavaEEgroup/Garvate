@@ -4,7 +4,6 @@ import com.gc.model.Article;
 import com.gc.model.User;
 import com.gc.model.Vote;
 
-import java.sql.Timestamp;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,8 +48,8 @@ class CommunityAllChild {
     private Integer view_count;
     private Long vote_id;
     private AbstractList<String> tag;
-    private Timestamp create_time;
-    private Timestamp update_time;
+    private String  create_time;
+    private String update_time;
 
     public CommunityAllChild(Article article) {
 
@@ -62,23 +61,23 @@ class CommunityAllChild {
         this.view_count = article.getView_count();
         Vote vote = article.getVote();
         if(vote != null) this.vote_id = vote.getId();
-        this.create_time = article.getCreate_time();
-        this.update_time = article.getUpdate_time();
+        this.create_time = article.getCreate_time().toString();
+        this.update_time = article.getUpdate_time().toString();
     }
 
-    public Timestamp getUpdate_time() {
+    public String getUpdate_time() {
         return update_time;
     }
 
-    public void setUpdate_time(Timestamp update_time) {
+    public void setUpdate_time(String update_time) {
         this.update_time = update_time;
     }
 
-    public Timestamp getCreate_time() {
+    public String getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(Timestamp create_time) {
+    public void setCreate_time(String create_time) {
         this.create_time = create_time;
     }
 

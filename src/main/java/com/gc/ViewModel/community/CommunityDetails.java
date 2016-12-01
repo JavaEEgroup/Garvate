@@ -2,7 +2,6 @@ package com.gc.ViewModel.community;
 
 import com.gc.model.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -255,7 +254,7 @@ class CommunityComment {
     private String content;
     private Long user_id;
     private String user_name;
-    private Timestamp create_time;
+    private String create_time;
     private ArrayList<CommunityRecomment> recomments;
 
 
@@ -265,7 +264,7 @@ class CommunityComment {
         User from_user = comment.getFromUser();
         this.user_id = from_user.getId();
         this.user_name = from_user.getUsername();
-        this.create_time = comment.getCreate_time();
+        this.create_time = comment.getCreate_time().toString();
         this.recomments = new ArrayList<>();
         for(Comment comment1 : comments) {
             Comment parent_comment = comment1.getParent_comment();
@@ -308,11 +307,11 @@ class CommunityComment {
         this.user_name = user_name;
     }
 
-    public Timestamp getCreate_time() {
+    public String getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(Timestamp create_time) {
+    public void setCreate_time(String create_time) {
         this.create_time = create_time;
     }
 
@@ -331,7 +330,7 @@ class CommunityRecomment {
     private String content;
     private Long user_id;
     private String user_name;
-    private Timestamp create_time;
+    private String create_time;
     private Long to_user_id;
     private String to_user_name;
 
@@ -341,7 +340,7 @@ class CommunityRecomment {
         User from_user = comment.getFromUser();
         this.user_id = from_user.getId();
         this.user_name = from_user.getUsername();
-        this.create_time = comment.getCreate_time();
+        this.create_time = comment.getCreate_time().toString();
         User to_user = comment.getToUser();
         this.to_user_id = to_user.getId();
         this.to_user_name = to_user.getUsername();
@@ -379,11 +378,11 @@ class CommunityRecomment {
         this.user_name = user_name;
     }
 
-    public Timestamp getCreate_time() {
+    public String getCreate_time() {
         return create_time;
     }
 
-    public void setCreate_time(Timestamp create_time) {
+    public void setCreate_time(String create_time) {
         this.create_time = create_time;
     }
 

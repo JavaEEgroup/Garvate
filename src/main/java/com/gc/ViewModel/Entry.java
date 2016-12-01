@@ -1,8 +1,6 @@
 package com.gc.ViewModel;
 
-/**
- * Created by jx-pc on 2016/11/30.
- */
+
 public class Entry {
 
     private int state;

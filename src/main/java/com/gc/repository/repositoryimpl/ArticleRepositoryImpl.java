@@ -24,7 +24,7 @@ public class ArticleRepositoryImpl implements ArticleCustomRepository {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Article> query = builder.createQuery(Article.class);
         Root<Article> root = query.from(Article.class);
-
+        
         return entityManager.createQuery(query.where(
                 builder.or(
                         builder.equal(root.join("tagList", JoinType.LEFT).get("description"), tagDescription),
