@@ -17,7 +17,7 @@ public class TeamUser {
     private User member;
 
     @JoinColumn(name="team_id")
-    @ManyToOne
+    @ManyToOne(cascade={CascadeType.REMOVE, CascadeType.ALL})
     private Team team;
 
     @JoinColumn(name="team_state_id")

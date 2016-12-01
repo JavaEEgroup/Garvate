@@ -37,8 +37,7 @@ public class TeamController {
                                       @RequestParam(value = "tag_id_list[]")List<Long> tagIDs){
         try {
             Date date = new Date();
-            Timestamp nowTimestamp = new Timestamp(date.getTime());
-            Team team = new Team(desc, teamName, maxCount, nowTimestamp, nowTimestamp);
+            Team team = new Team(desc, teamName, maxCount);
 
             String user_account = request.getRemoteUser();
             User captain = userRepository.findByAccount(user_account);
@@ -99,6 +98,9 @@ public class TeamController {
             teamUser.setState(teamState);
             teamUserRepository.save(teamUser);
 
+            team.setUpdateTime(Utils.getCurrentTime());
+            teamRepository.save(team);
+
             return Utils.getStateMessage("0");
         } catch (Exception exception) {
             return Utils.getStateMessage("2");
@@ -129,6 +131,10 @@ public class TeamController {
             TeamUser teamUser = teamUserRepository.findByMemberAndTeam(applyUser, team);
             teamUser.setState(teamState);
             teamUserRepository.save(teamUser);
+
+            team.setUpdateTime(Utils.getCurrentTime());
+            teamRepository.save(team);
+
             return Utils.getStateMessage("0");
         } catch (Exception exception) {
             return Utils.getStateMessage("2");
@@ -158,6 +164,9 @@ public class TeamController {
             teamUser.setState(teamState);
             teamUserRepository.save(teamUser);
 
+            team.setUpdateTime(Utils.getCurrentTime());
+            teamRepository.save(team);
+
             return Utils.getStateMessage("0");
         } catch (Exception exception) {
             return Utils.getStateMessage("2");
@@ -184,6 +193,10 @@ public class TeamController {
             TeamUser teamUser = teamUserRepository.findByMemberAndTeam(user, team);
             teamUser.setState(teamState);
             teamUserRepository.save(teamUser);
+
+            team.setUpdateTime(Utils.getCurrentTime());
+            teamRepository.save(team);
+
             return Utils.getStateMessage("0");
         } catch (Exception exception) {
             return Utils.getStateMessage("2");
