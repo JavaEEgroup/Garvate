@@ -7,6 +7,8 @@ import com.gc.ViewModel.community.CommunityDetails;
 import com.gc.model.*;
 import com.gc.repository.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,13 +43,21 @@ public class CommunityController {
     @Autowired
     private CommentRepository commentRepository;
 
-    @RequestMapping(value = "/all")
-    private CommunityAll all() {
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    private CommunityAll all(@RequestParam(value = "numResults",defaultValue = "20")int numResults,
+                             @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
 
-        CommunityAll communityAll = new CommunityAll(0);
-        communityAll.add2Results(articleRepository.findAll());
+        try{
+            Page<Article> articles = articleRepository.findAll(new PageRequest(resultOffset,numResults));
 
-        return communityAll;
+            CommunityAll communityAll = new CommunityAll(0);
+            communityAll.add2Results(articles.getContent());
+
+            return communityAll;
+        }
+        catch (Exception exception){
+            return new CommunityAll(0);
+        }
     }
 
     @RequestMapping(value = "/details")
@@ -220,16 +230,16 @@ public class CommunityController {
         return new Entry(0);
     }
 
+    @RequestMapping(value = "/search")
+    public CommunityAll search(@RequestParam(value = "tag_desc",defaultValue = "") String tagDesc,
+                          @RequestParam(value = "username",defaultValue = "") String username,
+                          @RequestParam(value = "key",defaultValue = "")String key,
+                          @RequestParam(value = "numResults",defaultValue = "20")int numResults,
+                          @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
 
-    @RequestMapping(value = "/show", method = RequestMethod.POST)
-    private Entry show(HttpServletRequest request,
-                                   @RequestParam(value = "id")Long id) {
+        CommunityAll communityAll = new CommunityAll(0);
+        communityAll.add2Results(articleRepository.findArticleByTagDescription(new PageRequest(resultOffset,numResults), tagDesc,username,key));
 
-        Article article = articleRepository.findOne(id);
-        Vote vote = article.getVote();
-        Article a = vote.getArticle();
-        System.out.println(a.getContent());
-
-        return new Entry(1);
+        return communityAll;
     }
 }

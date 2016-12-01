@@ -12,8 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class TeamController {
@@ -230,9 +232,6 @@ public class TeamController {
                                     @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
         return new TeamAll(0,teamRepository.findTeamsByTagDescription(new PageRequest(resultOffset,numResults), tagDesc,username,key));
     }
-
-
-
 
     @RequestMapping(value = "/team/test")
     public HashMap<String,TeamState> getTeamState() {
