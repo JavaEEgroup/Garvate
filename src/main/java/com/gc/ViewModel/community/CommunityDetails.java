@@ -1,36 +1,162 @@
 package com.gc.ViewModel.community;
 
-import com.gc.model.Comment;
-import com.gc.model.User;
-import com.gc.model.Vote;
-import com.gc.model.VoteItem;
+import com.gc.model.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
-/**
- * Created by jx-pc on 2016/11/29.
- */
+
 public class CommunityDetails {
 
     private int state;
     private String title;
-    private Integer id;
+    private Long id;
     private Integer user_id;
     private Integer view_count;
     private ArrayList<String> tag;
     private String create_time;
     private String update_time;
-    private Integer vote_id;
-    private ArrayList<CommunityVote> vote;
+    private Long vote_id;
+    private CommunityVote vote;
     private ArrayList<CommunityVotes> votes;
     private ArrayList<Integer> user_votes;
+    private ArrayList<CommunityComment> comments;
 
     public CommunityDetails(int state) {
         this.state = state;
     }
 
+    public void add2CommunityDetails(Article article) {
+        this.title = article.getTitle();
+        this.id = article.getId();
+        this.view_count = article.getView_count();
+        for(Tag tag :article.getTagList()) {
+            this.tag.add(tag.getDescription());
+        }
+        this.create_time = article.getCreate_time().toString();
+        this.update_time = article.getUpdate_time().toString();
+        Vote article_vote = article.getVote();
+        this.vote = new CommunityVote(article_vote);
+        this.vote_id = article_vote.getId();
+        this.votes = new ArrayList<>();
+        for(VoteItem voteItem : article_vote.getVoteItemList()) {
+            this.votes.add(new CommunityVotes(voteItem));
+        }
+        this.comments =  new ArrayList<>();
+        List<Comment> article_comments = article.getCommentList();
+        for(Comment comment : article_comments) {
+            if(comment.getParent_comment() == null) {
+                this.comments.add(new CommunityComment(comment, article_comments));
+                System.out.println("TAG--->" + comment.getContent());
+            }
+        }
+        System.out.println("TAG--->" + this.comments.size());
+    }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public Integer getView_count() {
+        return view_count;
+    }
+
+    public void setView_count(Integer view_count) {
+        this.view_count = view_count;
+    }
+
+    public ArrayList<String> getTag() {
+        return tag;
+    }
+
+    public void setTag(ArrayList<String> tag) {
+        this.tag = tag;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
+    }
+
+    public Long getVote_id() {
+        return vote_id;
+    }
+
+    public void setVote_id(Long vote_id) {
+        this.vote_id = vote_id;
+    }
+
+    public CommunityVote getVote() {
+        return vote;
+    }
+
+    public void setVote(CommunityVote vote) {
+        this.vote = vote;
+    }
+
+    public ArrayList<CommunityVotes> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(ArrayList<CommunityVotes> votes) {
+        this.votes = votes;
+    }
+
+    public ArrayList<Integer> getUser_votes() {
+        return user_votes;
+    }
+
+    public void setUser_votes(ArrayList<Integer> user_votes) {
+        this.user_votes = user_votes;
+    }
+
+    public ArrayList<CommunityComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<CommunityComment> comments) {
+        this.comments = comments;
+    }
 }
 
 class CommunityVote {
@@ -41,6 +167,13 @@ class CommunityVote {
     private Integer min;
 
     public CommunityVote(Vote vote) {
+        this.title = vote.getTitle();
+        this.desc = vote.getDescription();
+        this.max = vote.getMax();
+        this.min = vote.getMin();
+    }
+
+    public void add2CommunityVote(Vote vote) {
         this.title = vote.getTitle();
         this.desc = vote.getDescription();
         this.max = vote.getMax();
@@ -127,13 +260,21 @@ class CommunityComment {
     private ArrayList<CommunityRecomment> recomments;
 
 
-    public CommunityComment(Comment comment) {
+    public CommunityComment(Comment comment, List<Comment> comments) {
         this.comment_id = comment.getId();
         this.content = comment.getContent();
         User from_user = comment.getFromUser();
         this.user_id = from_user.getId();
         this.user_name = from_user.getUsername();
         this.create_time = comment.getCreate_time();
+        this.recomments = new ArrayList<>();
+        for(Comment comment1 : comments) {
+            Comment parent_comment = comment1.getParent_comment();
+            if(parent_comment == null) continue;
+            else if(parent_comment.getId() == this.comment_id) {
+                this.recomments.add(new CommunityRecomment(comment1));
+            }
+        }
     }
 
     public Long getComment_id() {

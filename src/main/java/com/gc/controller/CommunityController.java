@@ -50,15 +50,22 @@ public class CommunityController {
     }
 
     @RequestMapping(value = "/details")
-    private CommunityDetails details(@RequestParam(value = "id")Integer id) {
+    private CommunityDetails details(HttpServletRequest request,
+            @RequestParam(value = "id")Long id) {
 
         CommunityDetails communityDetails = new CommunityDetails(0);
+
+        Article article = articleRepository.getOne(id);
+
+        communityDetails.add2CommunityDetails(article);
+
+
 
         return communityDetails;
     }
 
 
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     private CommunityAdd add(HttpServletRequest request,
                       @RequestParam(value = "content")String content,
                       @RequestParam(value = "title")String title,
@@ -110,7 +117,7 @@ public class CommunityController {
         return new CommunityAdd(0, 0L);
     }
 
-    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     private Entry delete(HttpServletRequest request,
                              @RequestParam(value = "article_id")Long article_id) {
 
@@ -119,7 +126,7 @@ public class CommunityController {
         return new Entry(1);
     }
 
-    @RequestMapping(value = "delete/vote", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/vote", method = RequestMethod.POST)
     private Entry delete_vote(HttpServletRequest request,
                                    @RequestParam(value = "vote_id")Long vote_id) {
 
@@ -128,7 +135,7 @@ public class CommunityController {
         return new Entry(1);
     }
 
-    @RequestMapping(value = "delete/vote/item", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete/vote/item", method = RequestMethod.POST)
     private Entry delete_vote_item(HttpServletRequest request,
                          @RequestParam(value = "vote_item_id")Long vote_item_id) {
 
@@ -137,7 +144,7 @@ public class CommunityController {
         return new Entry(1);
     }
 
-    @RequestMapping(value = "show", method = RequestMethod.POST)
+    @RequestMapping(value = "/show", method = RequestMethod.POST)
     private Entry show(HttpServletRequest request,
                                    @RequestParam(value = "id")Long id) {
 
