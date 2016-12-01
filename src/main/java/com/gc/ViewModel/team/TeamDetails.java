@@ -3,7 +3,6 @@ package com.gc.ViewModel.team;
 import com.gc.model.Tag;
 import com.gc.model.Team;
 import com.gc.model.TeamUser;
-import com.gc.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -182,8 +181,8 @@ class TeamMember{
     private String state;
 
     TeamMember(TeamUser teamUser) {
-        this.user_name = teamUser.getMemeber().getUsername();
-        this.user_id = teamUser.getMemeber().getId();
+        this.user_name = teamUser.getMember().getUsername();
+        this.user_id = teamUser.getMember().getId();
         this.state = teamUser.getState().getDescription();
     }
 

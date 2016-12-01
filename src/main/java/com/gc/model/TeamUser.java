@@ -14,10 +14,10 @@ public class TeamUser {
 
     @JoinColumn(name="member_user_id")
     @ManyToOne
-    private User memeber;
+    private User member;
 
     @JoinColumn(name="team_id")
-    @ManyToOne
+    @ManyToOne(cascade={CascadeType.REMOVE, CascadeType.ALL})
     private Team team;
 
     @JoinColumn(name="team_state_id")
@@ -32,12 +32,12 @@ public class TeamUser {
         this.id = id;
     }
 
-    public User getMemeber() {
-        return memeber;
+    public User getMember() {
+        return member;
     }
 
-    public void setMemeber(User memeber) {
-        this.memeber = memeber;
+    public void setMember(User member) {
+        this.member = member;
     }
 
     public Team getTeam() {

@@ -1,14 +1,15 @@
 package com.gc.model;
 
 import com.gc.Utils.Config;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.List;
 
-/**
- * Created by zihe on 2016/11/23.
- */
 @Entity
 @Table(name = "team")
 public class Team {
@@ -23,10 +24,12 @@ public class Team {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time",updatable = false)
+    @CreationTimestamp
     private Timestamp createTime;
 
-    @Column(name = "update_time", nullable = false)
+    @Column(name = "update_time")
+    @UpdateTimestamp
     private Timestamp updateTime;
 
     @Column(name = "max_count", nullable = false)
@@ -48,22 +51,25 @@ public class Team {
     private List<Tag> tagList;
 
     @JoinColumn(name = "team_id")
-    @OneToMany
+    @OneToMany(cascade={CascadeType.REMOVE, CascadeType.ALL})
     private List<TeamUser> teamUserList;
 
     public Team(){
 
     }
-    public Team(String desc, String title, int maxCount,Timestamp createTime,Timestamp updateTime){
+    public Team(String desc, String title, int maxCount){
         this.description = desc;
         this.title = title;
         this.maxCount = maxCount;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
+//        this.createTime = new Timestamp(1);
+//        this.updateTime = this.createTime;
     }
 
     public int getCurrentCount() {
         int result = 1;
+        if (this.teamUserList == null) {
+            return result;
+        }
         for (TeamUser teamUser : this.teamUserList) {
             if (teamUser.getState().getDescription().equals(Config.TEAM_STATE_INTEAM)) {
                 ++result;
