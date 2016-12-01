@@ -58,12 +58,13 @@ public class Article {
 
     }
 
-    public Article(String title, String content, Timestamp create_time) {
+    public Article(String title, String content, Timestamp create_time, List<Tag> tags) {
         this.title = title;
         this.content = content;
         this.create_time = create_time;
         this.update_time = create_time;
         this.view_count = 0;
+        this.tagList = tags;
     }
 
     public Long getId() {

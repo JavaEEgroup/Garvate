@@ -4,14 +4,8 @@ import com.gc.ViewModel.Entry;
 import com.gc.ViewModel.community.CommunityAdd;
 import com.gc.ViewModel.community.CommunityAll;
 import com.gc.ViewModel.community.CommunityDetails;
-import com.gc.model.Article;
-import com.gc.model.User;
-import com.gc.model.Vote;
-import com.gc.model.VoteItem;
-import com.gc.repository.repository.ArticleRepository;
-import com.gc.repository.repository.UserRepository;
-import com.gc.repository.repository.VoteItemRepository;
-import com.gc.repository.repository.VoteRepository;
+import com.gc.model.*;
+import com.gc.repository.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/community")
@@ -39,6 +34,9 @@ public class CommunityController {
 
     @Autowired
     private VoteItemRepository voteItemRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     @RequestMapping(value = "/all")
     private CommunityAll all() {
@@ -57,9 +55,20 @@ public class CommunityController {
 
         Article article = articleRepository.getOne(id);
 
+        String user_account = request.getRemoteUser();
+        User user = userRepository.findByAccount(user_account);
+
+        ArrayList<Integer> userVotes = new ArrayList<>();
+        for(VoteItem voteItem : user.getVoteItemList()) {
+            for(VoteItem voteItem1 : article.getVote().getVoteItemList())
+            if(Objects.equals(voteItem.getId(), voteItem1.getId())) {
+                userVotes.add(voteItem.getRank());
+            }
+        }
+
+        communityDetails.setUser_votes(userVotes);
+
         communityDetails.add2CommunityDetails(article);
-
-
 
         return communityDetails;
     }
@@ -73,14 +82,17 @@ public class CommunityController {
                       @RequestParam(value = "vote_item")List<String> vote_item,
                       @RequestParam(value = "vote_max")int vote_max,
                       @RequestParam(value = "vote_min")int vote_min,
-                      @RequestParam(value = "vote_title")String vote_title) {
+                      @RequestParam(value = "vote_title")String vote_title,
+                      @RequestParam(value = "tag_id")List<Long> tagIDs) {
 
         try {
             Date date = new Date();
 
             Timestamp nowTimestamp = new Timestamp(date.getTime());
 
-            Article article = new Article(title, content, nowTimestamp);
+            List<Tag> tags = tagRepository.getTagsByTagIDs(tagIDs);
+            for(Tag tag : tags) System.out.println("TAG--->" + tag.getDescription());
+            Article article = new Article(title, content, nowTimestamp, tags);
 
             if(vote_title != null) {
 

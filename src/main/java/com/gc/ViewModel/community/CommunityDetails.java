@@ -31,6 +31,7 @@ public class CommunityDetails {
         this.title = article.getTitle();
         this.id = article.getId();
         this.view_count = article.getView_count();
+        this.tag = new ArrayList<>();
         for(Tag tag :article.getTagList()) {
             this.tag.add(tag.getDescription());
         }
@@ -48,10 +49,8 @@ public class CommunityDetails {
         for(Comment comment : article_comments) {
             if(comment.getParent_comment() == null) {
                 this.comments.add(new CommunityComment(comment, article_comments));
-                System.out.println("TAG--->" + comment.getContent());
             }
         }
-        System.out.println("TAG--->" + this.comments.size());
     }
 
     public int getState() {
