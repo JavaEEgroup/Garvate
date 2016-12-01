@@ -38,6 +38,9 @@ public class CommunityController {
     @Autowired
     private TagRepository tagRepository;
 
+    @Autowired
+    private CommentRepository commentRepository;
+
     @RequestMapping(value = "/all")
     private CommunityAll all() {
 
@@ -135,26 +138,88 @@ public class CommunityController {
 
         articleRepository.delete(article_id);
 
-        return new Entry(1);
+        return new Entry(0);
     }
 
-    @RequestMapping(value = "/delete/vote", method = RequestMethod.POST)
-    private Entry delete_vote(HttpServletRequest request,
+    @RequestMapping(value = "/vote/delete", method = RequestMethod.POST)
+    private Entry deleteVote(HttpServletRequest request,
                                    @RequestParam(value = "vote_id")Long vote_id) {
 
         voteRepository.delete(vote_id);
 
-        return new Entry(1);
+        return new Entry(0);
     }
 
-    @RequestMapping(value = "/delete/vote/item", method = RequestMethod.POST)
-    private Entry delete_vote_item(HttpServletRequest request,
+    @RequestMapping(value = "/vote/item/delete", method = RequestMethod.POST)
+    private Entry deleteVoteItem(HttpServletRequest request,
                          @RequestParam(value = "vote_item_id")Long vote_item_id) {
 
         voteItemRepository.delete(vote_item_id);
 
-        return new Entry(1);
+        return new Entry(0);
     }
+
+    @RequestMapping(value = "/comment/add", method = RequestMethod.POST)
+    private Entry addComment(HttpServletRequest request,
+                              @RequestParam(value = "content")String content,
+                              @RequestParam(value = "id")Long id) {
+
+        Article article = articleRepository.findOne(id);
+        String user_account = request.getRemoteUser();
+        User user = userRepository.findByAccount(user_account);
+
+        Comment comment = new Comment(content, user, article);
+
+        commentRepository.save(comment);
+
+        return new Entry(0);
+    }
+
+    @RequestMapping(value = "/recomment/add", method = RequestMethod.POST)
+    private Entry addRecomment(HttpServletRequest request,
+                              @RequestParam(value = "content")String content,
+                              @RequestParam(value = "article_id")Long article_id,
+                              @RequestParam(value = "parent_comment_id")Long parent_comment_id,
+                              @RequestParam(value = "to_user_id")Long to_user_id) {
+
+        Article article = articleRepository.findOne(article_id);
+        Comment parent_comment = commentRepository.findOne(parent_comment_id);
+        String user_account = request.getRemoteUser();
+        User user = userRepository.findByAccount(user_account);
+        User toUser = userRepository.findOne(to_user_id);
+
+        Comment comment = new Comment(content, user, toUser, parent_comment, article);
+
+        commentRepository.save(comment);
+
+        return new Entry(0);
+    }
+
+    @RequestMapping(value = "/comment/delete", method = RequestMethod.POST)
+    private Entry deleteComment(HttpServletRequest request,
+                                  @RequestParam(value = "id")Long id) {
+
+        for(Comment comment : commentRepository.findAll()) {
+            Comment parentComment = comment.getParent_comment();
+            if(parentComment != null && parentComment.getId() == id) {
+                commentRepository.delete(comment);
+            }
+        }
+
+        commentRepository.delete(id);
+
+        return new Entry(0);
+    }
+
+    @RequestMapping(value = "/recomment/delete", method = RequestMethod.POST)
+    private Entry deleteRecomment(HttpServletRequest request,
+                                @RequestParam(value = "id")Long id) {
+
+        commentRepository.delete(id);
+
+        return new Entry(0);
+    }
+
 
     @RequestMapping(value = "/show", method = RequestMethod.POST)
     private Entry show(HttpServletRequest request,

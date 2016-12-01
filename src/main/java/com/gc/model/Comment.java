@@ -2,6 +2,7 @@ package com.gc.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "comment")
@@ -34,6 +35,28 @@ public class Comment {
     @JoinColumn(name = "article_id")
     @ManyToOne
     private Article article;
+
+    public Comment() {
+
+    }
+
+    public Comment(String content, User fromUser, Article article) {
+
+        this.content = content;
+        this.fromUser = fromUser;
+        this.article = article;
+        this.create_time = new Timestamp(new Date().getTime());
+    }
+
+    public Comment(String content, User fromUser, User toUser, Comment parent_comment, Article article) {
+
+        this.content = content;
+        this.fromUser = fromUser;
+        this.toUser = toUser;
+        this.article = article;
+        this.parent_comment = parent_comment;
+        this.create_time = new Timestamp(new Date().getTime());
+    }
 
     public Long getId() {
         return id;
