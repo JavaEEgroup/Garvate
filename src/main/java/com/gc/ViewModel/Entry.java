@@ -3,17 +3,17 @@ package com.gc.ViewModel;
 
 public class Entry {
 
-    private int state;
+    private int status;
 
     public Entry(int state) {
-        this.state = state;
+        this.status = state;
     }
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

@@ -3,13 +3,12 @@ package com.gc.ViewModel.team;
 import com.gc.model.Tag;
 import com.gc.model.Team;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TeamAll {
-    private int state;
+    private int status;
     private List<TeamRoughInf> results;
 
     public TeamAll(){
@@ -26,15 +25,15 @@ public class TeamAll {
     }
 
     public TeamAll(int state) {
-        this.state = state;
+        this.status = state;
     }
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public List<TeamRoughInf> getResults() {

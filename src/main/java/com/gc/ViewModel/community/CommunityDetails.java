@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CommunityDetails {
 
-    private int state;
+    private int status;
     private String title;
     private Long id;
     private Integer user_id;
@@ -23,7 +23,7 @@ public class CommunityDetails {
     private ArrayList<CommunityComment> comments;
 
     public CommunityDetails(int state) {
-        this.state = state;
+        this.status = state;
     }
 
     public void add2CommunityDetails(Article article) {
@@ -52,12 +52,12 @@ public class CommunityDetails {
         }
     }
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getTitle() {

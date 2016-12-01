@@ -5,20 +5,20 @@ package com.gc.ViewModel.community;
  */
 public class CommunityAdd {
 
-    private int state;
+    private int status;
     private Long article_id;
 
     public CommunityAdd(int state, Long article_id) {
-        this.state = state;
+        this.status = state;
         this.article_id = article_id;
     }
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public Long getArticle_id() {

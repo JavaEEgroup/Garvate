@@ -11,12 +11,12 @@ import java.util.List;
 
 public class CommunityAll {
 
-    private int state;
+    private int status;
 
     private ArrayList<CommunityAllChild> results;
 
     public CommunityAll(int state) {
-        this.state = state;
+        this.status = state;
         this.results = new ArrayList<>();
     }
 
@@ -30,12 +30,12 @@ public class CommunityAll {
         }
     }
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
 

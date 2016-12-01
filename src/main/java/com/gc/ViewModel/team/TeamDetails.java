@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TeamDetails {
-    private int state;
+    private int status;
 
     private TeamDetailInf results;
 
@@ -18,7 +18,7 @@ public class TeamDetails {
     }
 
     public TeamDetails(int state) {
-        this.state = state;
+        this.status = state;
     }
 
     public TeamDetails(int state, Team team) {
@@ -27,12 +27,12 @@ public class TeamDetails {
         results = new TeamDetailInf(team);
     }
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public TeamDetailInf getResults() {
