@@ -1,9 +1,9 @@
 package com.gc.Utils;
 
 public class Config {
-    public static final String STATE_SUCCESS = "0";
-    public static final String STATE_FAIL_LOGIN = "1";
-    public static final String STATE_FAIL_OTHER = "2";
+    public static final Long STATE_SUCCESS = 0L;
+    public static final Long STATE_FAIL_LOGIN = 1L;
+    public static final Long STATE_FAIL_OTHER = 2L;
 
     public static final String TEAM_STATE_APPLY = "apply";
     public static final String TEAM_STATE_INTEAM = "in_team";

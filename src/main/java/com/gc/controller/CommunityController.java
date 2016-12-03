@@ -56,7 +56,7 @@ public class CommunityController {
             return communityAll;
         }
         catch (Exception exception){
-            return new CommunityAll(0);
+            return new CommunityAll(1);
         }
     }
 
