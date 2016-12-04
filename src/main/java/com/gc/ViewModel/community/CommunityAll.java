@@ -12,8 +12,10 @@ import java.util.List;
 public class CommunityAll {
 
     private int status;
-
     private ArrayList<CommunityAllChild> results;
+    private Long user_id;
+    private String username;
+
 
     public CommunityAll(int state) {
         this.status = state;
@@ -37,6 +39,22 @@ public class CommunityAll {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
 
 class CommunityAllChild {
@@ -50,6 +68,7 @@ class CommunityAllChild {
     private AbstractList<String> tag;
     private String  create_time;
     private String update_time;
+    private String content;
 
     public CommunityAllChild(Article article) {
 
@@ -63,6 +82,7 @@ class CommunityAllChild {
         if(vote != null) this.vote_id = vote.getId();
         this.create_time = article.getCreate_time().toString();
         this.update_time = article.getUpdate_time().toString();
+        this.content = article.getContent();
     }
 
     public String getUpdate_time() {
@@ -135,5 +155,13 @@ class CommunityAllChild {
 
     public void setView_count(Integer view_count) {
         this.view_count = view_count;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

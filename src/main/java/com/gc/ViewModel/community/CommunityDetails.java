@@ -11,7 +11,9 @@ public class CommunityDetails {
     private int status;
     private String title;
     private Long id;
-    private Integer user_id;
+    private Long user_id;
+    private String username;
+    private String content;
     private Integer view_count;
     private ArrayList<String> tag;
     private String create_time;
@@ -29,6 +31,7 @@ public class CommunityDetails {
     public void add2CommunityDetails(Article article) {
         this.title = article.getTitle();
         this.id = article.getId();
+        this.content = article.getContent();
         this.view_count = article.getView_count();
         this.tag = new ArrayList<>();
         for(Tag tag :article.getTagList()) {
@@ -76,11 +79,11 @@ public class CommunityDetails {
         this.id = id;
     }
 
-    public Integer getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(Integer user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 
@@ -154,6 +157,22 @@ public class CommunityDetails {
 
     public void setComments(ArrayList<CommunityComment> comments) {
         this.comments = comments;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
 
