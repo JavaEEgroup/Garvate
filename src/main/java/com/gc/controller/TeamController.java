@@ -32,7 +32,7 @@ public class TeamController {
 
     @RequestMapping(value = "/team/add", method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String,String> add(HttpServletRequest request,
+    public HashMap<String,Long> add(HttpServletRequest request,
                                       @RequestParam(value = "description")String desc,
                                       @RequestParam(value = "max_count")int maxCount,
                                       @RequestParam(value = "name")String teamName,
@@ -50,11 +50,11 @@ public class TeamController {
 
             teamRepository.save(team);
 
-            HashMap<String, String> results = Utils.getStateMessage("0");
-            results.put("team_id", "" + team.getId());
+            HashMap<String, Long> results = Utils.getStateMessage(0L);
+            results.put("team_id", team.getId());
             return results;
         } catch (Exception exception) {
-            return Utils.getStateMessage("2");
+            return Utils.getStateMessage(2L);
         }
     }
 
@@ -82,7 +82,7 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/team/member/apply", method = RequestMethod.POST)
-    public HashMap<String, String> applyMember(HttpServletRequest request,
+    public HashMap<String, Long> applyMember(HttpServletRequest request,
                                                @RequestParam(value = "team_id")Long team_id) {
         try {
             String user_account = request.getRemoteUser();
@@ -90,7 +90,7 @@ public class TeamController {
             Team team = teamRepository.findOne(team_id);
             if (Objects.equals(user.getId(), team.getCaptain().getId())
                     || team.getCurrentCount() >= team.getMaxCount()) {
-                return Utils.getStateMessage("2");
+                return Utils.getStateMessage(2L);
             }
             TeamState teamState = teamStateRepository.getByDescription(Config.TEAM_STATE_APPLY);
 
@@ -103,14 +103,14 @@ public class TeamController {
             team.setUpdateTime(Utils.getCurrentTime());
             teamRepository.save(team);
 
-            return Utils.getStateMessage("0");
+            return Utils.getStateMessage(0L);
         } catch (Exception exception) {
-            return Utils.getStateMessage("2");
+            return Utils.getStateMessage(2L);
         }
     }
 
     @RequestMapping(value = "team/member/dealWithApply",method = RequestMethod.POST)
-    public HashMap<String,String> dealWithApply(HttpServletRequest request,
+    public HashMap<String,Long> dealWithApply(HttpServletRequest request,
                                                 @RequestParam(value = "team_id")Long teamId,
                                                 @RequestParam(value = "apply_user_id")Long applyUserId,
                                                 @RequestParam(value = "state")boolean state){
@@ -120,7 +120,7 @@ public class TeamController {
             Team team = teamRepository.findOne(teamId);
             if (Objects.equals(user.getId(), applyUserId)
                     || !Objects.equals(user.getId(), team.getCaptain().getId())) {
-                return Utils.getStateMessage("2");
+                return Utils.getStateMessage(2L);
             }
             User applyUser = userRepository.findOne(applyUserId);
 
@@ -137,15 +137,15 @@ public class TeamController {
             team.setUpdateTime(Utils.getCurrentTime());
             teamRepository.save(team);
 
-            return Utils.getStateMessage("0");
+            return Utils.getStateMessage(0L);
         } catch (Exception exception) {
-            return Utils.getStateMessage("2");
+            return Utils.getStateMessage(2L);
         }
 
     }
 
     @RequestMapping(value = "/team/member/invite", method = RequestMethod.POST)
-    public HashMap<String, String> inviteMember(HttpServletRequest request,
+    public HashMap<String, Long> inviteMember(HttpServletRequest request,
                                                @RequestParam(value = "team_id")Long teamId,
                                                 @RequestParam(value = "invite_user_id")Long inviteUserId) {
         try {
@@ -155,7 +155,7 @@ public class TeamController {
             if (!Objects.equals(user.getId(), team.getCaptain().getId())
                     || team.getCurrentCount() >= team.getMaxCount()
                     || Objects.equals(user.getId(), inviteUserId)) {
-                return Utils.getStateMessage("2");
+                return Utils.getStateMessage(2L);
             }
             User invite_user = userRepository.findOne(inviteUserId);
             TeamState teamState = teamStateRepository.getByDescription(Config.TEAM_STATE_INVITE);
@@ -169,14 +169,14 @@ public class TeamController {
             team.setUpdateTime(Utils.getCurrentTime());
             teamRepository.save(team);
 
-            return Utils.getStateMessage("0");
+            return Utils.getStateMessage(0L);
         } catch (Exception exception) {
-            return Utils.getStateMessage("2");
+            return Utils.getStateMessage(2L);
         }
     }
 
     @RequestMapping(value = "/team/member/dealWithInvite",method = RequestMethod.POST)
-    public HashMap<String,String> dealWithInvite(HttpServletRequest request,
+    public HashMap<String,Long> dealWithInvite(HttpServletRequest request,
                                                 @RequestParam(value = "team_id")Long teamId,
                                                 @RequestParam(value = "state")boolean state){
         try {
@@ -184,7 +184,7 @@ public class TeamController {
             User user = userRepository.findByAccount(user_account);
             Team team = teamRepository.findOne(teamId);
             if (Objects.equals(user.getId(), team.getCaptain().getId())) {
-                return Utils.getStateMessage("2");
+                return Utils.getStateMessage(2L);
             }
             TeamState teamState;
             if (state) {
@@ -199,28 +199,28 @@ public class TeamController {
             team.setUpdateTime(Utils.getCurrentTime());
             teamRepository.save(team);
 
-            return Utils.getStateMessage("0");
+            return Utils.getStateMessage(0L);
         } catch (Exception exception) {
-            return Utils.getStateMessage("2");
+            return Utils.getStateMessage(2L);
         }
 
     }
 
     @RequestMapping(value = "/team/delete", method = RequestMethod.POST)
-    public HashMap<String, String> delete(HttpServletRequest request,
+    public HashMap<String, Long> delete(HttpServletRequest request,
                                           @RequestParam(value = "team_id")Long teamId) {
         try {
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
             Team team = teamRepository.findOne(teamId);
             if(!Objects.equals(user.getId(), team.getCaptain().getId())){
-                return Utils.getStateMessage("2");
+                return Utils.getStateMessage(2L);
             }
             teamRepository.delete(team);
-            return Utils.getStateMessage("0");
+            return Utils.getStateMessage(0L);
 
         } catch (Exception exception) {
-            return Utils.getStateMessage("2");
+            return Utils.getStateMessage(2L);
         }
     }
 

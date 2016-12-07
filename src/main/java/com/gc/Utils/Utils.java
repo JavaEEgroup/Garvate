@@ -5,9 +5,9 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Utils {
-    public static HashMap<String,String> getStateMessage(String status){
-        HashMap<String, String> results = new HashMap<>();
-        results.put("status",status);
+    public static HashMap<String, Long> getStateMessage(Long status){
+        HashMap<String, Long> results = new HashMap<>();
+        results.put("status", status);
         return results;
     }
 

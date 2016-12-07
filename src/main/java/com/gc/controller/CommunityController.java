@@ -44,46 +44,62 @@ public class CommunityController {
     private CommentRepository commentRepository;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    private CommunityAll all(@RequestParam(value = "numResults",defaultValue = "20")int numResults,
-                             @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
+    private CommunityAll all(
+            HttpServletRequest request,
+            @RequestParam(value = "numResults",defaultValue = "20")int numResults,
+            @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
 
         try{
             Page<Article> articles = articleRepository.findAll(new PageRequest(resultOffset,numResults));
-
             CommunityAll communityAll = new CommunityAll(0);
             communityAll.add2Results(articles.getContent());
+
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+            communityAll.setUser_id(user.getId());
+            communityAll.setUsername(user.getUsername());
 
             return communityAll;
         }
         catch (Exception exception){
-            return new CommunityAll(0);
+            return new CommunityAll(1);
         }
     }
 
     @RequestMapping(value = "/details")
-    private CommunityDetails details(HttpServletRequest request,
+    private CommunityDetails details(
+            HttpServletRequest request,
             @RequestParam(value = "id")Long id) {
 
-        CommunityDetails communityDetails = new CommunityDetails(0);
 
-        Article article = articleRepository.getOne(id);
+        try {
+            CommunityDetails communityDetails = new CommunityDetails(0);
 
-        String user_account = request.getRemoteUser();
-        User user = userRepository.findByAccount(user_account);
+            Article article = articleRepository.getOne(id);
 
-        ArrayList<Integer> userVotes = new ArrayList<>();
-        for(VoteItem voteItem : user.getVoteItemList()) {
-            for(VoteItem voteItem1 : article.getVote().getVoteItemList())
-            if(Objects.equals(voteItem.getId(), voteItem1.getId())) {
-                userVotes.add(voteItem.getRank());
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+            communityDetails.setUser_id(user.getId());
+            communityDetails.setUsername(user.getUsername());
+
+            ArrayList<Integer> userVotes = new ArrayList<>();
+            for(VoteItem voteItem : user.getVoteItemList()) {
+                for(VoteItem voteItem1 : article.getVote().getVoteItemList())
+                    if(Objects.equals(voteItem.getId(), voteItem1.getId())) {
+                        userVotes.add(voteItem.getRank());
+                    }
             }
+
+            communityDetails.setUser_votes(userVotes);
+
+            communityDetails.add2CommunityDetails(article);
+
+            return communityDetails;
+        }
+        catch (Exception exception) {
+            return new CommunityDetails(1);
         }
 
-        communityDetails.setUser_votes(userVotes);
-
-        communityDetails.add2CommunityDetails(article);
-
-        return communityDetails;
     }
 
 

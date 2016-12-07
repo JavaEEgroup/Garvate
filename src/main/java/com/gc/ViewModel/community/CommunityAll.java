@@ -1,10 +1,10 @@
 package com.gc.ViewModel.community;
 
 import com.gc.model.Article;
+import com.gc.model.Tag;
 import com.gc.model.User;
 import com.gc.model.Vote;
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +12,9 @@ import java.util.List;
 public class CommunityAll {
 
     private int status;
-
     private ArrayList<CommunityAllChild> results;
+    private Long user_id;
+    private String username;
 
     public CommunityAll(int state) {
         this.status = state;
@@ -37,6 +38,22 @@ public class CommunityAll {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }
 
 class CommunityAllChild {
@@ -47,9 +64,10 @@ class CommunityAllChild {
     private String user_name;
     private Integer view_count;
     private Long vote_id;
-    private AbstractList<String> tag;
+    private ArrayList<String> tag;
     private String  create_time;
     private String update_time;
+    private String content;
 
     public CommunityAllChild(Article article) {
 
@@ -58,11 +76,24 @@ class CommunityAllChild {
         this.id = article.getId();
         this.user_id = user.getId();
         this.user_name = user.getUsername();
+        this.tag = new ArrayList<>();
+        for(Tag tag :article.getTagList()) {
+            this.tag.add(tag.getDescription());
+        }
         this.view_count = article.getView_count();
         Vote vote = article.getVote();
         if(vote != null) this.vote_id = vote.getId();
         this.create_time = article.getCreate_time().toString();
         this.update_time = article.getUpdate_time().toString();
+        this.content = article.getContent();
+    }
+
+    public ArrayList<String> getTag() {
+        return tag;
+    }
+
+    public void setTag(ArrayList<String> tag) {
+        this.tag = tag;
     }
 
     public String getUpdate_time() {
@@ -79,14 +110,6 @@ class CommunityAllChild {
 
     public void setCreate_time(String create_time) {
         this.create_time = create_time;
-    }
-
-    public AbstractList<String> getTag() {
-        return tag;
-    }
-
-    public void setTag(AbstractList<String> tag) {
-        this.tag = tag;
     }
 
     public Long getVote_id() {
@@ -135,5 +158,13 @@ class CommunityAllChild {
 
     public void setView_count(Integer view_count) {
         this.view_count = view_count;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

@@ -20,26 +20,26 @@ public class UserController {
 
     @RequestMapping(value = "/login_success")
     @ResponseBody
-    public HashMap<String,String> login_success(HttpServletRequest request) {
+    public HashMap<String,Long> login_success(HttpServletRequest request) {
         return Utils.getStateMessage(Config.STATE_SUCCESS);
 
     }
 
     @RequestMapping(value = "/login_fail")
     @ResponseBody
-    public  HashMap<String, String> login_fail(HttpServletRequest request) {
+    public  HashMap<String, Long> login_fail(HttpServletRequest request) {
         return Utils.getStateMessage(Config.STATE_FAIL_OTHER);
     }
 
     @RequestMapping(value = "/login")
     @ResponseBody
-    public HashMap<String, String> login() {
+    public HashMap<String, Long> login() {
         return Utils.getStateMessage(Config.STATE_FAIL_LOGIN);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String,String> register(@RequestParam(value = "account")String account,
+    public HashMap<String,Long> register(@RequestParam(value = "account")String account,
                             @RequestParam(value = "password")String password,
                             @RequestParam(value="username")String username) {
         try {
@@ -51,8 +51,8 @@ public class UserController {
             user.setUsername(username);
             userRepository.save(user);
 
-            HashMap<String,String> results =  Utils.getStateMessage(Config.STATE_SUCCESS);
-            results.put("user_id", ""+user.getId());
+            HashMap<String,Long> results =  Utils.getStateMessage(Config.STATE_SUCCESS);
+            results.put("user_id", user.getId());
             return results;
         } catch (Exception exception) {
             return Utils.getStateMessage(Config.STATE_FAIL_OTHER);
