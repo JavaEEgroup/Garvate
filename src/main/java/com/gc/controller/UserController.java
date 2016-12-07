@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.Objects;
 
 @RestController
 public class UserController {
@@ -21,6 +22,7 @@ public class UserController {
     @ResponseBody
     public HashMap<String,String> login_success(HttpServletRequest request) {
         return Utils.getStateMessage(Config.STATE_SUCCESS);
+
     }
 
     @RequestMapping(value = "/login_fail")
