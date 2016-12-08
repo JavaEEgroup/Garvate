@@ -254,7 +254,7 @@ public class CommunityController {
                           @RequestParam(value = "key",defaultValue = "!@#")String key,
                           @RequestParam(value = "numResults",defaultValue = "20")int numResults,
                           @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
-
+        
         CommunityAll communityAll = new CommunityAll(0);
         communityAll.add2Results(articleRepository.findArticleByTagDescription(new PageRequest(resultOffset,numResults), tagDesc,username,key));
 
