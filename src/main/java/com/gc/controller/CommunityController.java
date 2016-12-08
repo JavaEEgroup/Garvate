@@ -107,12 +107,14 @@ public class CommunityController {
     private CommunityAdd add(HttpServletRequest request,
                       @RequestParam(value = "content")String content,
                       @RequestParam(value = "title")String title,
-                      @RequestParam(value = "vote_desc")String vote_desc,
-                      @RequestParam(value = "vote_item")List<String> vote_item,
-                      @RequestParam(value = "vote_max")int vote_max,
-                      @RequestParam(value = "vote_min")int vote_min,
-                      @RequestParam(value = "vote_title")String vote_title,
-                      @RequestParam(value = "tag_id")List<Long> tagIDs) {
+
+                      @RequestParam(value = "vote_desc",defaultValue = "")String vote_desc,
+                      @RequestParam(value = "vote_item",defaultValue = "")List<String> vote_item,
+                      @RequestParam(value = "vote_max",defaultValue = "0")int vote_max,
+                      @RequestParam(value = "vote_min",defaultValue = "0")int vote_min,
+                      @RequestParam(value = "vote_title",defaultValue = "")String vote_title,
+
+                      @RequestParam(value = "tag_id",defaultValue = "")List<Long> tagIDs) {
 
         try {
             Date date = new Date();
@@ -123,7 +125,7 @@ public class CommunityController {
             for(Tag tag : tags) System.out.println("TAG--->" + tag.getDescription());
             Article article = new Article(title, content, nowTimestamp, tags);
 
-            if(vote_title != null) {
+            if(vote_title != null && !Objects.equals(vote_title, "")) {
 
                 Vote vote = new Vote(vote_title, vote_desc, vote_max, vote_min);
 

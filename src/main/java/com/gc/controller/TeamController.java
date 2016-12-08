@@ -36,7 +36,7 @@ public class TeamController {
                                       @RequestParam(value = "description")String desc,
                                       @RequestParam(value = "max_count")int maxCount,
                                       @RequestParam(value = "name")String teamName,
-                                      @RequestParam(value = "tag_id_list[]")List<Long> tagIDs){
+                                      @RequestParam(value = "tag_id_list")List<Long> tagIDs){
         try {
             Date date = new Date();
             Team team = new Team(desc, teamName, maxCount);
