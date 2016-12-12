@@ -68,6 +68,6 @@ public class UserController {
     @RequestMapping(value = "/test")
     @ResponseBody
     public String test() {
-        return "test test3";
+        return "test test4";
     }
 }
