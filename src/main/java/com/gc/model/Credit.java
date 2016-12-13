@@ -41,4 +41,17 @@ public class Credit {
             inverseJoinColumns = @JoinColumn(name = "credit_status_id"),
             joinColumns = @JoinColumn(name = "credit_id"))
     private List<CreditStatus> creditStatusList;
+
+    @JoinColumn(name = "credit_first_type_id")
+    @ManyToOne
+    private CreditFirstType creditFirstType;
+
+    @JoinColumn(name = "credit_second_type_id")
+    @ManyToOne
+    private CreditSecondType creditSecondType;
+
+    @JoinColumn(name = "credit_third_type_id")
+    @ManyToOne
+    private CreditThirdType creditThirdType;
+
 }

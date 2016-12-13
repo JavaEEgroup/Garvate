@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "credit_first_type")
-public class CreditFirstType {
+@Table(name = "credit_third_type")
+public class CreditThirdType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id", nullable = false)
@@ -15,15 +15,11 @@ public class CreditFirstType {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @JoinColumn(name = "credit_first_type_id")
+    @JoinColumn(name = "credit_third_type_id")
     @OneToMany
     private List<Credit> creditList;
 
     @JoinColumn(name = "credit_type_id")
-    @OneToMany
-    private List<CreditSecondType> creditSecondTypeList;
-
-    @JoinColumn(name = "credit_type_id")
-    @OneToMany
-    private List<CreditThirdType> creditThirdTypeList;
+    @ManyToOne
+    private CreditFirstType creditFirstType;
 }
