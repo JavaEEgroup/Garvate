@@ -26,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/login_fail", "/login_success", "/register").permitAll()
+                .antMatchers("/roleTest").hasAnyAuthority("admin")
                 .anyRequest().authenticated()
 
                 .and().formLogin()
@@ -65,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authoritiesByUsernameQuery("SELECT account, password " +
 //                        "From user WHERE account = ?")
                 .authoritiesByUsernameQuery("SELECT account, description " +
-                        "From user join user_role join role WHERE account = ?")
+                        "From user , user_role , role WHERE user.id=user_role.user_id AND user_role.role_id=role.id AND account = ?")
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 }

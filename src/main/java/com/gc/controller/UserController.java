@@ -80,4 +80,10 @@ public class UserController {
     public String test() {
         return "test";
     }
+
+    @RequestMapping(value = "/roleTest")
+    @ResponseBody
+    public String roleTest() {
+        return "roleTest";
+    }
 }
