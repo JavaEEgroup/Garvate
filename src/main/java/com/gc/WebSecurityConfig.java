@@ -63,10 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 dataSource(this.dataSource)
                 .usersByUsernameQuery("SELECT account, password,enabled " +
                         "From user WHERE account = ?")
-//                .authoritiesByUsernameQuery("SELECT account, password " +
-//                        "From user WHERE account = ?")
                 .authoritiesByUsernameQuery("SELECT account, description " +
-                        "From user , user_role , role WHERE user.id=user_role.user_id AND user_role.role_id=role.id AND account = ?")
+                        "From user , user_role , role" +
+                        "WHERE user.id=user_role.user_id AND user_role.role_id=role.id AND account = ?")
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 }

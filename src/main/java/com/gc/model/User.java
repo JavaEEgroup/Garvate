@@ -81,6 +81,18 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"))
     private List<Role> roleList;
 
+    public List<Credit> getCreditList() {
+        return creditList;
+    }
+
+    public void setCreditList(List<Credit> creditList) {
+        this.creditList = creditList;
+    }
+
+    @JoinColumn(name = "user_id")
+    @OneToMany
+    private List<Credit> creditList;
+
     public List<Role> getRoleList() {
         return roleList;
     }
