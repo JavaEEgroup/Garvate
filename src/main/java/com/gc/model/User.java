@@ -74,6 +74,20 @@ public class User {
     @ManyToMany(mappedBy = "userList")
     private List<VoteItem> voteItemList;
 
+    @ManyToMany
+    @JoinTable(
+            name="user_role",
+            inverseJoinColumns = @JoinColumn(name = "role_id"),
+            joinColumns = @JoinColumn(name = "user_id"))
+    private List<Role> roleList;
+
+    public List<Role> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
+    }
 
     public Long getId() {
         return id;

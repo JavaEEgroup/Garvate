@@ -38,7 +38,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and().logout()
                 .logoutSuccessUrl("/login_success")
-//                .logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
                 .permitAll()
 
                 .and().csrf().disable()
@@ -63,8 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 dataSource(this.dataSource)
                 .usersByUsernameQuery("SELECT account, password,enabled " +
                         "From user WHERE account = ?")
-                .authoritiesByUsernameQuery("SELECT account, password " +
-                        "From user WHERE account = ?")
+//                .authoritiesByUsernameQuery("SELECT account, password " +
+//                        "From user WHERE account = ?")
+                .authoritiesByUsernameQuery("SELECT account, description " +
+                        "From user join user_role join role WHERE account = ?")
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 }

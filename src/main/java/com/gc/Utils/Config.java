@@ -10,4 +10,7 @@ public class Config {
     public static final String TEAM_STATE_INVITE = "be_invited";
     public static final String TEAM_STATE_APPLYFAIL = "apply_fail";
     public static final String TEAM_STATE_INVITEFAIL= "refuse_invite";
+
+    public static final String ROLE_STUDENT = "student";
+    public static final String ROLE_ADMIN = "admin";
 }
