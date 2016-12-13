@@ -59,9 +59,15 @@ public class UserController {
         }
     }
 
+    @RequestMapping(value = "/checkLogin",method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String,Long>  checkLogin(){
+        return Utils.getStateMessage(Config.STATE_SUCCESS);
+    }
+
     @RequestMapping(value = "/test")
     @ResponseBody
     public String test() {
-        return "test";
+        return "test test6";
     }
 }

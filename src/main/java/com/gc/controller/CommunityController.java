@@ -78,7 +78,8 @@ public class CommunityController {
             Article article = articleRepository.getOne(id);
 
             String user_account = request.getRemoteUser();
-            User user = userRepository.findByAccount(user_account);
+//            User user = userRepository.findByAccount(user_account);
+            User user = article.getUser();
             communityDetails.setUser_id(user.getId());
             communityDetails.setUsername(user.getUsername());
 
@@ -154,10 +155,9 @@ public class CommunityController {
 
             return new CommunityAdd(0, article.getId());
         } catch (Exception exception) {
-
+            return new CommunityAdd(2, 0L);
         }
 
-        return new CommunityAdd(0, 0L);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)

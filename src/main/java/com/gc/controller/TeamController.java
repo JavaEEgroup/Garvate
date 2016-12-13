@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+@RequestMapping(value = "/team")
 @RestController
 public class TeamController {
     @Autowired
@@ -30,7 +31,7 @@ public class TeamController {
     @Autowired
     private TeamUserRepository teamUserRepository;
 
-    @RequestMapping(value = "/team/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public HashMap<String,Long> add(HttpServletRequest request,
                                       @RequestParam(value = "description")String desc,
@@ -38,6 +39,11 @@ public class TeamController {
                                       @RequestParam(value = "name")String teamName,
                                       @RequestParam(value = "tag_id_list")List<Long> tagIDs){
         try {
+            System.out.println("descriptin: "+desc);
+            System.out.println("max_count: " + maxCount);
+            System.out.println("name: " + teamName);
+            System.out.println("tag_id_list: " + tagIDs);
+
             Date date = new Date();
             Team team = new Team(desc, teamName, maxCount);
 
@@ -58,7 +64,7 @@ public class TeamController {
         }
     }
 
-    @RequestMapping(value = "/team/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public TeamAll getAll(@RequestParam(value = "numResults",defaultValue = "20")int numResults,
                           @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
 
@@ -71,7 +77,7 @@ public class TeamController {
         }
     }
 
-    @RequestMapping(value = "/team/details", method = RequestMethod.GET)
+    @RequestMapping(value = "/details", method = RequestMethod.GET)
     public TeamDetails getDetails(@RequestParam(value = "team_id") Long team_id) {
         try {
             Team team = teamRepository.findOne(team_id);
@@ -81,7 +87,7 @@ public class TeamController {
         }
     }
 
-    @RequestMapping(value = "/team/member/apply", method = RequestMethod.POST)
+    @RequestMapping(value = "/member/apply", method = RequestMethod.POST)
     public HashMap<String, Long> applyMember(HttpServletRequest request,
                                                @RequestParam(value = "team_id")Long team_id) {
         try {
@@ -109,7 +115,7 @@ public class TeamController {
         }
     }
 
-    @RequestMapping(value = "team/member/dealWithApply",method = RequestMethod.POST)
+    @RequestMapping(value = "/member/dealWithApply",method = RequestMethod.POST)
     public HashMap<String,Long> dealWithApply(HttpServletRequest request,
                                                 @RequestParam(value = "team_id")Long teamId,
                                                 @RequestParam(value = "apply_user_id")Long applyUserId,
@@ -144,7 +150,7 @@ public class TeamController {
 
     }
 
-    @RequestMapping(value = "/team/member/invite", method = RequestMethod.POST)
+    @RequestMapping(value = "/member/invite", method = RequestMethod.POST)
     public HashMap<String, Long> inviteMember(HttpServletRequest request,
                                                @RequestParam(value = "team_id")Long teamId,
                                                 @RequestParam(value = "invite_user_id")Long inviteUserId) {
@@ -175,7 +181,7 @@ public class TeamController {
         }
     }
 
-    @RequestMapping(value = "/team/member/dealWithInvite",method = RequestMethod.POST)
+    @RequestMapping(value = "/member/dealWithInvite",method = RequestMethod.POST)
     public HashMap<String,Long> dealWithInvite(HttpServletRequest request,
                                                 @RequestParam(value = "team_id")Long teamId,
                                                 @RequestParam(value = "state")boolean state){
@@ -206,7 +212,7 @@ public class TeamController {
 
     }
 
-    @RequestMapping(value = "/team/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public HashMap<String, Long> delete(HttpServletRequest request,
                                           @RequestParam(value = "team_id")Long teamId) {
         try {
@@ -224,7 +230,7 @@ public class TeamController {
         }
     }
 
-    @RequestMapping(value = "/team/search")
+    @RequestMapping(value = "/search")
     public TeamAll search(@RequestParam(value = "tag_desc",defaultValue = "") String tagDesc,
                                     @RequestParam(value = "username",defaultValue = "") String username,
                                     @RequestParam(value = "key",defaultValue = "!@#")String key,
@@ -233,7 +239,7 @@ public class TeamController {
         return new TeamAll(0,teamRepository.findTeamsByTagDescription(new PageRequest(resultOffset,numResults), tagDesc,username,key));
     }
 
-    @RequestMapping(value = "/team/test")
+    @RequestMapping(value = "/test")
     public HashMap<String,TeamState> getTeamState() {
         HashMap<String,TeamState> teamStates = new HashMap<>();
         teamStates.put("1",teamStateRepository.getByDescription("apply"));

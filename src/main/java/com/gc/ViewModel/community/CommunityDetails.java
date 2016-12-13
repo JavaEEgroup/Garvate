@@ -37,15 +37,23 @@ public class CommunityDetails {
         for(Tag tag :article.getTagList()) {
             this.tag.add(tag.getDescription());
         }
+
         this.create_time = article.getCreate_time().toString();
         this.update_time = article.getUpdate_time().toString();
+
         Vote article_vote = article.getVote();
-        this.vote = new CommunityVote(article_vote);
-        this.vote_id = article_vote.getId();
-        this.votes = new ArrayList<>();
-        for(VoteItem voteItem : article_vote.getVoteItemList()) {
-            this.votes.add(new CommunityVotes(voteItem));
+        if(article_vote == null){
+            this.vote = null;
         }
+        else{
+            this.vote = new CommunityVote(article_vote);
+            this.vote_id = article_vote.getId();
+            this.votes = new ArrayList<>();
+            for(VoteItem voteItem : article_vote.getVoteItemList()) {
+                this.votes.add(new CommunityVotes(voteItem));
+            }
+        }
+
         this.comments =  new ArrayList<>();
         List<Comment> article_comments = article.getCommentList();
         for(Comment comment : article_comments) {
