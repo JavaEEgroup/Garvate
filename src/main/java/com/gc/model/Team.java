@@ -54,6 +54,9 @@ public class Team {
     @OneToMany(cascade={CascadeType.REMOVE, CascadeType.ALL})
     private List<TeamUser> teamUserList;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Project project;
+
     public Team(){
 
     }
@@ -156,6 +159,14 @@ public class Team {
 
     public void setTeamUserList(List<TeamUser> teamUserList) {
         this.teamUserList = teamUserList;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }
 
