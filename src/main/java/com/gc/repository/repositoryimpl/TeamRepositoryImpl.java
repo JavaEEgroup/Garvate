@@ -3,6 +3,7 @@ package com.gc.repository.repositoryimpl;
 import com.gc.model.Tag;
 import com.gc.model.Team;
 import com.gc.model.TeamTag;
+import com.gc.model.User;
 import com.gc.repository.customerrespository.TeamCustomRepository;
 import org.springframework.data.domain.Pageable;
 
@@ -34,6 +35,24 @@ public class TeamRepositoryImpl implements TeamCustomRepository {
                 .setFirstResult(pageable.getOffset())
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();
+    }
+
+    @Override
+    public List<Team> findTeamsByUser(Pageable pageable, User user) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Team> query = builder.createQuery(Team.class);
+        Root<Team> root = query.from(Team.class);
+
+        return entityManager.createQuery(query.where(
+                builder.or(
+                        builder.equal(root.join("teamUserList", JoinType.LEFT).get("member"), user),
+                        builder.equal(root.get("captain"), user)
+                )
+        ).distinct(true))
+                .setFirstResult(pageable.getOffset())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
+//        return null;
     }
 
 }

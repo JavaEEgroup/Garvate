@@ -94,9 +94,12 @@ public class TeamController {
         try {
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
+//
+//            Page<Team> teams = teamRepository.findByCaptain(new PageRequest(resultOffset, numResults), user);
+//            return new TeamAll(0, teams.getContent());
 
-            Page<Team> teams = teamRepository.findByCaptain(new PageRequest(resultOffset, numResults), user);
-            return new TeamAll(0, teams.getContent());
+            List<Team> teams = teamRepository.findTeamsByUser(new PageRequest(resultOffset, numResults), user);
+            return new TeamAll(0,teams);
         } catch (Exception exception) {
             return new TeamAll(0);
         }
