@@ -1,15 +1,14 @@
 package com.gc.controller;
 
+import com.gc.Utils.Utils;
+import com.gc.ViewModel.project.ProjectAdd;
 import com.gc.ViewModel.project.ProjectAll;
 import com.gc.ViewModel.project.ProjectDetails;
-import com.gc.model.Project;
-import com.gc.model.TeamUser;
-import com.gc.model.User;
-import com.gc.repository.repository.ProjectRepository;
-import com.gc.repository.repository.TeamRepository;
-import com.gc.repository.repository.UserRepository;
+import com.gc.model.*;
+import com.gc.repository.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +27,12 @@ public class ProjectController {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private ProjectTypeRepository projectTypeRepository;
+
+    @Autowired
+    private ProjectStatusRepository projectStatusRepository;
 
     @RequestMapping(value = "/all")
     private ProjectAll all(HttpServletRequest request) {
@@ -89,7 +94,43 @@ public class ProjectController {
         catch (Exception exception) {
             return new ProjectDetails(1);
         }
+    }
 
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    private ProjectAdd add(
+            HttpServletRequest request,
+            @RequestParam(value = "team_id")Long team_id,
+            @RequestParam(value = "name")String name,
+            @RequestParam(value = "description")String description,
+            @RequestParam(value = "note", defaultValue = "")String note,
+            @RequestParam(value = "project_type_id")Long project_type_id) {
+
+
+        try {
+
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+
+            Team team = teamRepository.getOne(team_id);
+
+            // 5 -> team已有project
+            if(team.getProject() != null) return new ProjectAdd(5);
+
+            // 依然没有加判断 =  -=
+            ProjectType projectType = projectTypeRepository.getOne(project_type_id);
+            ProjectStatus projectStatus = projectStatusRepository.getOne(1L);
+            Project project = new Project(name, description, note, projectType, projectStatus, Utils.getCurrentTime());
+            projectRepository.save(project);
+
+            team.setProject(project);
+            teamRepository.save(team);
+
+            return new ProjectAdd(0, project.getId());
+        }
+        catch (Exception e) {
+            // 1 -> 崩了
+            return new ProjectAdd(1);
+        }
     }
 }
 

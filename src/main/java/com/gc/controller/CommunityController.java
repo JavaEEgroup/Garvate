@@ -1,5 +1,6 @@
 package com.gc.controller;
 
+import com.gc.Utils.Utils;
 import com.gc.ViewModel.Entry;
 import com.gc.ViewModel.community.CommunityAdd;
 import com.gc.ViewModel.community.CommunityAll;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -118,9 +118,8 @@ public class CommunityController {
                       @RequestParam(value = "tag_id",defaultValue = "")List<Long> tagIDs) {
 
         try {
-            Date date = new Date();
 
-            Timestamp nowTimestamp = new Timestamp(date.getTime());
+            Timestamp nowTimestamp = Utils.getCurrentTime();
 
             List<Tag> tags = tagRepository.getTagsByTagIDs(tagIDs);
             for(Tag tag : tags) System.out.println("TAG--->" + tag.getDescription());

@@ -53,6 +53,20 @@ public class Project {
     @OneToOne(mappedBy = "project")
     private Team team;
 
+    public Project() {
+
+    }
+
+    public Project(String name, String description, String note, ProjectType project_type, ProjectStatus project_status, Timestamp start_time) {
+
+        this.name = name;
+        this.description = description;
+        this.note = note;
+        this.project_type = project_type;
+        this.project_status = project_status;
+        this.start_time = start_time;
+    }
+
     public Long getId() {
         return id;
     }
