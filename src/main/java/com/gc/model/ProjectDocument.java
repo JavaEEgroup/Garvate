@@ -27,6 +27,10 @@ public class ProjectDocument {
     @ManyToOne
     private Project project;
 
+    public String getTypeName() {
+        return this.type + "";
+    }
+
     public Long getId() {
         return id;
     }
