@@ -87,6 +87,21 @@ public class TeamController {
         }
     }
 
+    @RequestMapping(value = "/myTeams",method = RequestMethod.GET)
+    public TeamAll getDetails(HttpServletRequest request,
+                              @RequestParam(value = "numResults",defaultValue = "20")int numResults,
+                              @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset){
+        try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+
+            Page<Team> teams = teamRepository.findByCaptain(new PageRequest(resultOffset, numResults), user);
+            return new TeamAll(0, teams.getContent());
+        } catch (Exception exception) {
+            return new TeamAll(0);
+        }
+    }
+
     @RequestMapping(value = "/member/apply", method = RequestMethod.POST)
     public HashMap<String, Long> applyMember(HttpServletRequest request,
                                                @RequestParam(value = "team_id")Long team_id) {
