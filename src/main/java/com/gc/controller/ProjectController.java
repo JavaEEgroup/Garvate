@@ -1,7 +1,9 @@
 package com.gc.controller;
 
+import com.gc.ViewModel.project.ProjectAll;
 import com.gc.ViewModel.project.ProjectDetails;
 import com.gc.model.Project;
+import com.gc.model.TeamUser;
 import com.gc.model.User;
 import com.gc.repository.repository.ProjectRepository;
 import com.gc.repository.repository.TeamRepository;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping(value = "/project")
@@ -26,6 +29,35 @@ public class ProjectController {
     @Autowired
     private TeamRepository teamRepository;
 
+    @RequestMapping(value = "/all")
+    private ProjectAll all(HttpServletRequest request) {
+
+        try {
+
+            ArrayList<Project> projects = new ArrayList<>();
+
+            ProjectAll projectAll = new ProjectAll(0);
+
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+
+            // 没有判断在TeamUserStage
+            for(TeamUser teamUser : user.getTeamUserList()) {
+                Project userProject = teamUser.getTeam().getProject();
+                if(userProject != null){
+                    projects.add(userProject);
+                }
+            }
+
+            projectAll.add2ProjectList(projects);
+
+            return projectAll;
+        }
+        catch (Exception e) {
+            return new ProjectAll(1);
+        }
+    }
+
     @RequestMapping(value = "/details")
     private ProjectDetails details(
             HttpServletRequest request,
@@ -34,7 +66,7 @@ public class ProjectController {
         try {
 
             Project project = projectRepository.getOne(id);
-            System.out.println("ID=" + project.getId());
+
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
 
@@ -60,3 +92,4 @@ public class ProjectController {
 
     }
 }
+
