@@ -3,7 +3,9 @@ package com.gc.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "project")
@@ -137,5 +139,10 @@ public class Project {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public List<User> getUserList() {
+        ArrayList<User> users = team.getTeamUserList().stream().map(TeamUser::getMember).collect(Collectors.toCollection(ArrayList::new));
+        return users;
     }
 }
