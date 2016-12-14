@@ -13,4 +13,8 @@ public class Config {
 
     public static final String ROLE_STUDENT = "student";
     public static final String ROLE_ADMIN = "admin";
+
+    public static final String CREDIT_STATUS_APPLY = "待审核";
+    public static final String CREDIT_STATUS_PASS = "已通过";
+    public static final String CREDIT_STATUS_REFUSE = "未通过";
 }

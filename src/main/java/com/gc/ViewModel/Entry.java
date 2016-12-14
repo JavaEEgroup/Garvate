@@ -5,6 +5,8 @@ public class Entry {
 
     private int status;
 
+    public Entry(){}
+
     public Entry(int state) {
         this.status = state;
     }

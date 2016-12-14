@@ -15,6 +15,7 @@ public class CreditStatus {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToMany(mappedBy = "creditStatusList")
+    @JoinColumn(name = "credit_status_id")
+    @OneToMany
     private List<Credit> creditList;
 }
