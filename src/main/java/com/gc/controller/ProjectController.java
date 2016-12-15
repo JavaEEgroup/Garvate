@@ -281,7 +281,7 @@ public class ProjectController {
             Fund fund = fundRepository.findOne(fund_id);
 
             // Fund not found
-            if(fund == null) return  new FundModify(FundModify.PROJECT_NOT_FOUND);
+            if(fund == null) return  new FundModify(FundModify.FUND_NOT_FOUND);
 
             // User has no authority
             if(!fund.getProject().hasUser(user)) return new FundModify(FundModify.NO_AUTHORITY);
@@ -312,7 +312,7 @@ public class ProjectController {
             Fund fund = fundRepository.findOne(fund_id);
 
             // Fund not found
-            if(fund == null) return  new FundDelete(FundDelete.PROJECT_NOT_FOUND);
+            if(fund == null) return  new FundDelete(FundDelete.FUND_NOT_FOUND);
 
             // User has no authority
             if(!fund.getProject().hasUser(user)) return new FundDelete(FundDelete.NO_AUTHORITY);

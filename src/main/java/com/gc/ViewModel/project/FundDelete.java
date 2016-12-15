@@ -5,7 +5,7 @@ public class FundDelete {
 
     public static final int SUCCESS = 0;
     public static final int ERROR = 1;
-    public static final int PROJECT_NOT_FOUND = 2;
+    public static final int FUND_NOT_FOUND = 2;
     public static final int NO_AUTHORITY= 4;
 
 
