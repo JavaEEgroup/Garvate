@@ -198,6 +198,42 @@ public class ProjectController {
         }
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    private ProjectDelete delete(
+            HttpServletRequest request,
+            @RequestParam(value = "project_id")Long project_id) {
+
+        try {
+
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+
+            Project project = projectRepository.findOne(project_id);
+
+            // Project not found
+            if(project == null) return  new ProjectDelete(ProjectDelete.PROJECT_NOT_FOUND);
+
+            // User has no authority
+            if(!project.getTeam().getCaptain().getId().equals(user.getId())) return new ProjectDelete(ProjectDelete.NO_AUTHORITY);
+
+            // Can not modify the project
+            if(!project.modifiable()) return new ProjectDelete(ProjectDelete.NOT_MODIFIABLE);
+
+            Team team = project.getTeam();
+            team.setProject(null);
+            teamRepository.save(team);
+
+            projectRepository.delete(project_id);
+
+            // Modify successfully
+            return new ProjectDelete(ProjectDelete.SUCCESS);
+        }
+        catch (Exception e) {
+            // Extra error
+            return new ProjectDelete(ProjectDelete.ERROR);
+        }
+    }
+
     @RequestMapping(value = "/fund/add", method = RequestMethod.POST)
     private FundAdd addFund(
             HttpServletRequest request,
