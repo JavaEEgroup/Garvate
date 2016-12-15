@@ -39,12 +39,9 @@ public class Credit {
     @ManyToOne
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name="credit_credit_status",
-            inverseJoinColumns = @JoinColumn(name = "credit_status_id"),
-            joinColumns = @JoinColumn(name = "credit_id"))
-    private List<CreditStatus> creditStatusList;
+    @JoinColumn(name = "credit_status_id")
+    @ManyToOne
+    private CreditStatus creditStatus;
 
     @JoinColumn(name = "credit_first_type_id")
     @ManyToOne
@@ -57,6 +54,17 @@ public class Credit {
     @JoinColumn(name = "credit_third_type_id")
     @ManyToOne
     private CreditThirdType creditThirdType;
+
+    public Credit(User user,
+                  String name,Timestamp getPrizeTime,
+                  CreditFirstType firstType,CreditSecondType secondType,CreditThirdType thirdType){
+        this.user = user;
+        this.name = name;
+        this.getPrizeTime = getPrizeTime;
+        this.creditFirstType = firstType;
+        this.creditSecondType = secondType;
+        this.creditThirdType = thirdType;
+    }
 
     public Long getId() {
         return id;
@@ -122,12 +130,12 @@ public class Credit {
         this.user = user;
     }
 
-    public List<CreditStatus> getCreditStatusList() {
-        return creditStatusList;
+    public CreditStatus getCreditStatus() {
+        return creditStatus;
     }
 
-    public void setCreditStatusList(List<CreditStatus> creditStatusList) {
-        this.creditStatusList = creditStatusList;
+    public void setCreditStatus(CreditStatus creditStatusList) {
+        this.creditStatus = creditStatusList;
     }
 
     public CreditFirstType getCreditFirstType() {
