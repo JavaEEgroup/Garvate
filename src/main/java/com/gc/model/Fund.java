@@ -1,5 +1,7 @@
 package com.gc.model;
 
+import com.gc.Utils.Utils;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -26,6 +28,17 @@ public class Fund {
     @JoinColumn(name = "project_id")
     @ManyToOne
     private Project project;
+
+    public Fund() {
+    }
+
+    public Fund(String fund_type, String note, Long value, Project project) {
+        this.fund_type = fund_type;
+        this.note = note;
+        this.value = value;
+        this.project = project;
+        this.edit_time = Utils.getCurrentTime();
+    }
 
     public Long getId() {
         return id;
