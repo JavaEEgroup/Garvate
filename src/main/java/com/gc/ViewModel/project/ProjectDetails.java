@@ -3,11 +3,18 @@ package com.gc.ViewModel.project;
 
 import com.gc.model.Project;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProjectDetails {
+
+    public static final int SUCCESS = 0;
+    public static final int ERROR = 1;
+    public static final int NO_AUTHORITY = 2;
+    public static final int PROJECT_NOT_FOUND = 3;
+    public static final int NOT_MODIFIABLE = 4;
 
     private int status;
     private Long id;
@@ -30,14 +37,15 @@ public class ProjectDetails {
         this.status = status;
     }
 
-    public ProjectDetails(Project project) {
-        this.status = 0;
+    public ProjectDetails(int status, Project project) {
+        this.status = status;
         this.id = project.getId();
         this.name = project.getName();
         this.description = project.getDescription();
         this.note = project.getNote();
         this.start_time = project.getStart_time().toString();
-        this.end_time = project.getEnd_time().toString();
+        Timestamp end_time = project.getEnd_time();
+        if(end_time != null) this.end_time = end_time.toString();
         this.project_status = new ProjectStatus(project.getProject_status());
         this.project_type = new ProjectType(project.getProject_type());
         this.funds = new ArrayList<>();

@@ -1,6 +1,9 @@
 package com.gc.model;
 
+import com.gc.Utils.Config;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -92,6 +95,37 @@ public class User {
     @JoinColumn(name = "user_id")
     @OneToMany
     private List<Credit> creditList;
+
+    public List<Project> getJoinProject() {
+        ArrayList<Project> projects = new ArrayList<>();
+        for(TeamUser teamUser : teamUserList) {
+            if (teamUser.getState().getDescription().equals(Config.TEAM_STATE_INTEAM)) {
+                Project userProject = teamUser.getTeam().getProject();
+                if(userProject != null){
+                    projects.add(userProject);
+                }
+            }
+        }
+        return projects;
+    }
+
+    public List<Project> getCaptainProject() {
+        ArrayList<Project> projects = new ArrayList<>();
+        for(Team team : captainTeamList) {
+            Project userProject = team.getProject();
+            if(userProject != null) {
+                projects.add(userProject);
+            }
+        }
+        return projects;
+    }
+
+    public List<Project> getAllProject() {
+        ArrayList<Project> projects = new ArrayList<>();
+        projects.addAll(getCaptainProject());
+        projects.addAll(getJoinProject());
+        return projects;
+    }
 
     public List<Role> getRoleList() {
         return roleList;

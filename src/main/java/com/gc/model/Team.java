@@ -68,6 +68,18 @@ public class Team {
 //        this.updateTime = this.createTime;
     }
 
+    public boolean hasUser(User user) {
+        if(captain.getId().equals(user.getId())) return true;
+        for(TeamUser teamUser : this.getTeamUserList()) {
+            User user1 = teamUser.getMember();
+            if(teamUser.getState().getDescription().equals(Config.TEAM_STATE_INTEAM)
+                && user1.getId().equals(user.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int getCurrentCount() {
         int result = 1;
         if (this.teamUserList == null) {

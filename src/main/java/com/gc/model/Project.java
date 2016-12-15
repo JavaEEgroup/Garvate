@@ -3,9 +3,7 @@ package com.gc.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "project")
@@ -52,6 +50,28 @@ public class Project {
 
     @OneToOne(mappedBy = "project")
     private Team team;
+
+    public Project() {
+
+    }
+
+    public Project(String name, String description, String note, ProjectType project_type, ProjectStatus project_status, Timestamp start_time) {
+
+        this.name = name;
+        this.description = description;
+        this.note = note;
+        this.project_type = project_type;
+        this.project_status = project_status;
+        this.start_time = start_time;
+    }
+
+    public boolean hasUser(User user) {
+        return team.hasUser(user);
+    }
+
+    public boolean modifiable() {
+        return project_status.getId().equals(12L);
+    }
 
     public Long getId() {
         return id;
@@ -139,10 +159,5 @@ public class Project {
 
     public void setTeam(Team team) {
         this.team = team;
-    }
-
-    public List<User> getUserList() {
-        ArrayList<User> users = team.getTeamUserList().stream().map(TeamUser::getMember).collect(Collectors.toCollection(ArrayList::new));
-        return users;
     }
 }

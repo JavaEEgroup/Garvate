@@ -14,6 +14,9 @@ public class ProjectType {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "open")
+    private boolean open;
+
     @JoinColumn(name = "project_type_id")
     @OneToMany
     private List<Project> projectList;
@@ -40,5 +43,13 @@ public class ProjectType {
 
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 }

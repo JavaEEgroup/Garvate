@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 
 public class ProjectAll {
 
+    public static final int SUCCESS = 0;
+    public static final int ERROR = 1;
+
     private int status;
     private List<ProjectInfo> projects;
 
