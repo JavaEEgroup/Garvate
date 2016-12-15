@@ -125,5 +125,74 @@ public class ProjectController {
     }
 
 
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    private ProjectDetails modify(
+            HttpServletRequest request,
+            @RequestParam(value = "project_id")Long project_id,
+            @RequestParam(value = "name", defaultValue = "!@#")String name,
+            @RequestParam(value = "description", defaultValue = "!@#")String description,
+            @RequestParam(value = "note", defaultValue = "!@#")String note) {
+
+        try {
+
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+
+            Project project = projectRepository.findOne(project_id);
+
+            // Team not found
+            if(project == null) return  new ProjectDetails(ProjectDetails.PROJECT_NOT_FOUND);
+
+            // User has no authority
+            if(!project.hasUser(user)) return new ProjectDetails(ProjectDetails.NO_AUTHORITY);
+
+            // Can not modify the project
+            if(!project.modifiable()) return new ProjectDetails(ProjectDetails.NOT_MODIFIABLE);
+
+            if(!name.equals("!@#")) project.setName(name);
+            if(!description.equals("!@#")) project.setDescription(description);
+            if(!note.equals("!@#")) project.setNote(note);
+            projectRepository.save(project);
+
+            // Modify successfully
+            return new ProjectDetails(ProjectDetails.SUCCESS, project);
+        }
+        catch (Exception e) {
+            // Extra error
+            return new ProjectDetails(ProjectDetails.ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/modify_note", method = RequestMethod.POST)
+    private ProjectDetails modify_note(
+            HttpServletRequest request,
+            @RequestParam(value = "project_id")Long project_id,
+            @RequestParam(value = "note")String note) {
+
+        try {
+
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+
+            Project project = projectRepository.findOne(project_id);
+
+            // Team not found
+            if(project == null) return  new ProjectDetails(ProjectDetails.PROJECT_NOT_FOUND);
+
+            // User has no authority
+            if(!project.hasUser(user)) return new ProjectDetails(ProjectDetails.NO_AUTHORITY);
+
+            project.setNote(note);
+            projectRepository.save(project);
+
+            // Modify successfully
+            return new ProjectDetails(ProjectDetails.SUCCESS, project);
+        }
+        catch (Exception e) {
+            // Extra error
+            return new ProjectDetails(ProjectDetails.ERROR);
+        }
+    }
+
 }
 

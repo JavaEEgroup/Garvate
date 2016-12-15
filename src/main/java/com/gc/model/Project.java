@@ -69,6 +69,10 @@ public class Project {
         return team.hasUser(user);
     }
 
+    public boolean modifiable() {
+        return project_status.getId().equals(12L);
+    }
+
     public Long getId() {
         return id;
     }
