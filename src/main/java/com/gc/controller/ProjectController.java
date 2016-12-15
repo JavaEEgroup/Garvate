@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping(value = "/project")
@@ -39,27 +38,16 @@ public class ProjectController {
 
         try {
 
-            ArrayList<Project> projects = new ArrayList<>();
-
-            ProjectAll projectAll = new ProjectAll(0);
-
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
 
-            // 没有判断在TeamUserStage
-            for(TeamUser teamUser : user.getTeamUserList()) {
-                Project userProject = teamUser.getTeam().getProject();
-                if(userProject != null){
-                    projects.add(userProject);
-                }
-            }
-
-            projectAll.add2ProjectList(projects);
+            ProjectAll projectAll = new ProjectAll(ProjectAll.SUCCESS);
+            projectAll.add2ProjectList(user.getAllProject());
 
             return projectAll;
         }
         catch (Exception e) {
-            return new ProjectAll(1);
+            return new ProjectAll(ProjectAll.ERROR);
         }
     }
 
@@ -72,27 +60,24 @@ public class ProjectController {
 
             Project project = projectRepository.getOne(id);
 
+            // Can not find the project
+            if(project == null) return new ProjectDetails(ProjectDetails.PROJECT_NOT_FOUND);
+
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
 
-            // 似乎需要验证访问权限？？？
-//            boolean not_fount = true;
-//            for(User x : project.getUserList()) {
-//                if (Objects.equals(x.getId(), user.getId())){
-//                    not_fount = false;
-//                    break;
-//                }
-//            }
-//            if(not_fount) return new ProjectDetails(2);
+            // Check if user has authority
+            if(!project.hasUser(user)) return new ProjectDetails(ProjectDetails.NO_AUTHORITY);
 
-            ProjectDetails projectDetails = new ProjectDetails(project);
+            ProjectDetails projectDetails = new ProjectDetails(ProjectDetails.SUCCESS, project);
             projectDetails.setUser_id(user.getId());
             projectDetails.setUsername(user.getUsername());
 
             return projectDetails;
         }
         catch (Exception exception) {
-            return new ProjectDetails(1);
+            // Extra error
+            return new ProjectDetails(ProjectDetails.ERROR);
         }
     }
 
@@ -105,7 +90,6 @@ public class ProjectController {
             @RequestParam(value = "note", defaultValue = "")String note,
             @RequestParam(value = "project_type_id")Long project_type_id) {
 
-
         try {
 
             String user_account = request.getRemoteUser();
@@ -113,10 +97,16 @@ public class ProjectController {
 
             Team team = teamRepository.getOne(team_id);
 
-            // 5 -> team已有project
-            if(team.getProject() != null) return new ProjectAdd(5);
+            // Team not found
+            if(team == null) return  new ProjectAdd(ProjectAdd.TEAM_NOT_FOUND);
 
-            // 依然没有加判断 =  -=
+            // User has no authority
+            if(!team.getCaptain().getId().equals(user.getId())) return new ProjectAdd(ProjectAdd.NO_AUTHORITY);
+
+            // Already has project
+            if(team.getProject() != null) return new ProjectAdd(ProjectAdd.ALREADY_HAS_PROJECT);
+
+
             ProjectType projectType = projectTypeRepository.getOne(project_type_id);
             ProjectStatus projectStatus = projectStatusRepository.getOne(1L);
             Project project = new Project(name, description, note, projectType, projectStatus, Utils.getCurrentTime());
@@ -125,12 +115,15 @@ public class ProjectController {
             team.setProject(project);
             teamRepository.save(team);
 
-            return new ProjectAdd(0, project.getId());
+            // Create successfully
+            return new ProjectAdd(ProjectAdd.SUCCESS, project.getId());
         }
         catch (Exception e) {
-            // 1 -> 崩了
-            return new ProjectAdd(1);
+            // Extra error
+            return new ProjectAdd(ProjectAdd.ERROR);
         }
     }
+
+
 }
 

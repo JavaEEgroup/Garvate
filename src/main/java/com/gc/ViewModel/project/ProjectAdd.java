@@ -3,6 +3,12 @@ package com.gc.ViewModel.project;
 
 public class ProjectAdd {
 
+    public static final int SUCCESS = 0;
+    public static final int ERROR = 1;
+    public static final int TEAM_NOT_FOUND = 2;
+    public static final int ALREADY_HAS_PROJECT = 3;
+    public static final int NO_AUTHORITY= 4;
+
     private int status;
     private Long id;
 
