@@ -55,6 +55,10 @@ public class Credit {
     @ManyToOne
     private CreditThirdType creditThirdType;
 
+    public Credit() {
+
+    }
+
     public Credit(User user,
                   String name,Timestamp getPrizeTime,
                   CreditFirstType firstType,CreditSecondType secondType,CreditThirdType thirdType){

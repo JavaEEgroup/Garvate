@@ -22,4 +22,36 @@ public class CreditThirdType {
     @JoinColumn(name = "credit_type_id")
     @ManyToOne
     private CreditFirstType creditFirstType;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Credit> getCreditList() {
+        return creditList;
+    }
+
+    public void setCreditList(List<Credit> creditList) {
+        this.creditList = creditList;
+    }
+
+    public CreditFirstType getCreditFirstType() {
+        return creditFirstType;
+    }
+
+    public void setCreditFirstType(CreditFirstType creditFirstType) {
+        this.creditFirstType = creditFirstType;
+    }
 }

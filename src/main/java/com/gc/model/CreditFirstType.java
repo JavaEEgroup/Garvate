@@ -26,4 +26,44 @@ public class CreditFirstType {
     @JoinColumn(name = "credit_type_id")
     @OneToMany
     private List<CreditThirdType> creditThirdTypeList;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Credit> getCreditList() {
+        return creditList;
+    }
+
+    public void setCreditList(List<Credit> creditList) {
+        this.creditList = creditList;
+    }
+
+    public List<CreditSecondType> getCreditSecondTypeList() {
+        return creditSecondTypeList;
+    }
+
+    public void setCreditSecondTypeList(List<CreditSecondType> creditSecondTypeList) {
+        this.creditSecondTypeList = creditSecondTypeList;
+    }
+
+    public List<CreditThirdType> getCreditThirdTypeList() {
+        return creditThirdTypeList;
+    }
+
+    public void setCreditThirdTypeList(List<CreditThirdType> creditThirdTypeList) {
+        this.creditThirdTypeList = creditThirdTypeList;
+    }
 }
