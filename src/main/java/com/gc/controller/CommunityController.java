@@ -76,6 +76,8 @@ public class CommunityController {
             CommunityDetails communityDetails = new CommunityDetails(0);
 
             Article article = articleRepository.getOne(id);
+            article.addView_Count();
+            articleRepository.save(article);
 
             String user_account = request.getRemoteUser();
 //            User user = userRepository.findByAccount(user_account);
@@ -94,6 +96,8 @@ public class CommunityController {
             communityDetails.setUser_votes(userVotes);
 
             communityDetails.add2CommunityDetails(article);
+
+            article.setView_count(article.getView_count());
 
             return communityDetails;
         }
