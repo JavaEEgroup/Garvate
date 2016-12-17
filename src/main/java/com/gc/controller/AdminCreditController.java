@@ -1,28 +1,25 @@
 package com.gc.controller;
 
+import com.gc.Utils.Config;
+import com.gc.ViewModel.Entry;
 import com.gc.ViewModel.credit.CreditAllWithUser;
 import com.gc.model.Credit;
+import com.gc.model.CreditStatus;
+import com.gc.model.User;
 import com.gc.repository.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 @RequestMapping(value = "/admin/credit")
 @RestController
 public class AdminCreditController {
     @Autowired
     private CreditRepository creditRepository;
-    @Autowired
-    private CreditFirstTypeRepository creditFirstTypeRepository;
-    @Autowired
-    private CreditSecondTypeRepository creditSecondTypeRepository;
-    @Autowired
-    private CreditThirdTypeRepository creditThirdTypeRepository;
     @Autowired
     private CreditStatusRepository creditStatusRepository;
     @Autowired
@@ -40,6 +37,37 @@ public class AdminCreditController {
         }
     }
 
+    @RequestMapping(value = "/update")
+    @ResponseBody
+    public Entry changeCreditStatus(@RequestParam(value = "credit_id") Long creditId,
+                                    @RequestParam(value = "credit_status_id") Long creditStatusId,
+                                    @RequestParam(value = "grade",defaultValue = "0")int grade,
+                                    @RequestParam(value = "value",defaultValue = "0")int value) {
+        try {
+            CreditStatus creditStatus = creditStatusRepository.findOne(creditStatusId);
+            Credit credit = creditRepository.findOne(creditId);
+            if (Objects.equals(creditStatus.getDescription(), Config.CREDIT_STATUS_PASS)) {
+                credit.setGrade(grade);
+                credit.setValue(value);
+            }
+            credit.setCreditStatus(creditStatus);
+            return new Entry(0);
+        } catch (Exception exception) {
+            return new Entry(2);
+        }
+    }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public Entry delete(@RequestParam(value = "credit_id") Long creditId) {
+        try{
 
+            Credit credit = creditRepository.findOne(creditId);
+            creditRepository.delete(credit);
+            return new Entry(0);
+        }
+        catch (Exception exception){
+            return new Entry(2);
+        }
+    }
 }
