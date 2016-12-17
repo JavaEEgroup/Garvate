@@ -146,4 +146,8 @@ public class Article {
     public void setCommentList(List<Comment> commentList) {
         this.commentList = commentList;
     }
+
+    public void addView_Count() {
+        this.view_count++;
+    }
 }
