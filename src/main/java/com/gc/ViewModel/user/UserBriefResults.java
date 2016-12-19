@@ -12,9 +12,14 @@ public class UserBriefResults {
     public UserBriefResults(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
-        this.phone = user.getPhone();
-        this.email = user.getEmail();
-        this.type = user.getType().equals(2) ? "学生" : "管理员";
+        if(user.getPhone() != null) this.phone = user.getPhone();
+        if(user.getEmail() != null) this.email = user.getEmail();
+//        if(user.getType() != null)this.type = user.getType().equals(2) ? "学生" : "管理员";
+
+        if (!user.getRoleList().isEmpty()) {
+            this.type = user.getRoleList().get(0).getDesc();
+        }
+
     }
 
     public Long getId() {

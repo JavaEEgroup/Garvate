@@ -94,7 +94,7 @@ public class UserController {
     @ResponseBody
     public UserIds getByUsername(@RequestParam(value = "username") String username) {
         try {
-            List<User> users = userRepository.findByUsernameLike(username);
+            List<User> users = userRepository.findByUsernameLike("%"+username+"%");
             return new UserIds(0, users);
         } catch (Exception exception) {
             return new UserIds(2);
