@@ -70,6 +70,7 @@ public class TeamController {
 
         try{
             Page<Team> teams = teamRepository.findAll(new PageRequest(resultOffset,numResults));
+            System.out.println(teams.getTotalPages());
             return new TeamAll(0, teams.getContent());
         }
         catch (Exception exception){

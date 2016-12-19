@@ -2,6 +2,7 @@ package com.gc.controller;
 
 import com.gc.Utils.Config;
 import com.gc.Utils.Utils;
+import com.gc.ViewModel.user.UserBriefInfo;
 import com.gc.model.Role;
 import com.gc.model.User;
 import com.gc.repository.repository.RoleRepository;
@@ -73,6 +74,20 @@ public class UserController {
     @ResponseBody
     public HashMap<String,Long>  checkLogin(){
         return Utils.getStateMessage(Config.STATE_SUCCESS);
+    }
+
+    @RequestMapping(value = "/getUserBriefInf", method = RequestMethod.GET)
+    @ResponseBody
+    public UserBriefInfo getUserBriefInf(HttpServletRequest request) {
+
+        try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+            return new UserBriefInfo(0, user);
+        } catch (Exception exception) {
+            return new UserBriefInfo(2);
+        }
+
     }
 
     @RequestMapping(value = "/test")
