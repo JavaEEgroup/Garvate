@@ -51,8 +51,10 @@ public class CommunityController {
 
         try{
             Page<Article> articles = articleRepository.findAll(new PageRequest(resultOffset,numResults));
+
             CommunityAll communityAll = new CommunityAll(0);
             communityAll.add2Results(articles.getContent());
+            communityAll.setPage_sum(articles.getTotalPages());
 
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
@@ -257,10 +259,16 @@ public class CommunityController {
                           @RequestParam(value = "key",defaultValue = "!@#")String key,
                           @RequestParam(value = "numResults",defaultValue = "20")int numResults,
                           @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
+        try {
+            List<Article> articles = articleRepository.findArticleByTagDescription(new PageRequest(resultOffset,numResults), tagDesc,username,key);
+            CommunityAll communityAll = new CommunityAll(0);
+            communityAll.add2Results(articles);
+            communityAll.setPage_sum(1);
+            return communityAll;
+        }
+        catch (Exception e) {
+            return new CommunityAll(1);
+        }
 
-        CommunityAll communityAll = new CommunityAll(0);
-        communityAll.add2Results(articleRepository.findArticleByTagDescription(new PageRequest(resultOffset,numResults), tagDesc,username,key));
-
-        return communityAll;
     }
 }

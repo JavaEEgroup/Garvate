@@ -8,6 +8,8 @@ import com.gc.model.ProjectStatus;
 import com.gc.model.ProjectType;
 import com.gc.repository.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,8 +40,30 @@ public class ProjectController {
     private FundRepository fundRepository;
 
     @RequestMapping(value = "/all")
-    private ProjectAll all(HttpServletRequest request) {
+    private ProjectAll all(HttpServletRequest request,
+                           @RequestParam(value = "numResults",defaultValue = "20")int numResults,
+                           @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
 
+        try {
+
+//            String user_account = request.getRemoteUser();
+//            User user = userRepository.findByAccount(user_account);
+
+            Page<Project> projects = projectRepository.findAll(new PageRequest(resultOffset,numResults));
+            ProjectAll projectAll = new ProjectAll(ProjectAll.SUCCESS);
+            projectAll.add2ProjectList(projects.getContent());
+            projectAll.setPage_sum(projects.getTotalPages());
+
+            return projectAll;
+        }
+        catch (Exception e) {
+            return new ProjectAll(ProjectAll.ERROR);
+        }
+    }
+
+
+    @RequestMapping(value = "/user")
+    private ProjectAll user(HttpServletRequest request) {
         try {
 
             String user_account = request.getRemoteUser();
@@ -54,6 +78,7 @@ public class ProjectController {
             return new ProjectAll(ProjectAll.ERROR);
         }
     }
+
 
     @RequestMapping(value = "/details")
     private ProjectDetails details(

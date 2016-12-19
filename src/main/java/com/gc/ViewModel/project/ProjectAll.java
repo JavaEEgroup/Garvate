@@ -12,6 +12,7 @@ public class ProjectAll {
     public static final int ERROR = 1;
 
     private int status;
+    private int page_sum;
     private List<ProjectInfo> projects;
 
     public ProjectAll() {
@@ -41,6 +42,14 @@ public class ProjectAll {
 
     public void setProjects(List<ProjectInfo> projects) {
         this.projects = projects;
+    }
+
+    public int getPage_sum() {
+        return page_sum;
+    }
+
+    public void setPage_sum(int page_sum) {
+        this.page_sum = page_sum;
     }
 }
 

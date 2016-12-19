@@ -12,9 +12,10 @@ import java.util.List;
 public class CommunityAll {
 
     private int status;
-    private ArrayList<CommunityAllChild> results;
     private Long user_id;
     private String username;
+    private int page_sum;
+    private ArrayList<CommunityAllChild> results;
 
     public CommunityAll(int state) {
         this.status = state;
@@ -53,6 +54,14 @@ public class CommunityAll {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public int getPage_sum() {
+        return page_sum;
+    }
+
+    public void setPage_sum(int page_sum) {
+        this.page_sum = page_sum;
     }
 }
 
