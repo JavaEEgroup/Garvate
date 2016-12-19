@@ -7,12 +7,14 @@ public class UserBriefResults {
     String username;
     String phone;
     String email;
+    String type;
 
     public UserBriefResults(User user) {
         this.id = user.getId();
         this.username = user.getUsername();
         this.phone = user.getPhone();
         this.email = user.getEmail();
+        this.type = user.getType().equals(2) ? "学生" : "管理员";
     }
 
     public Long getId() {
@@ -45,5 +47,13 @@ public class UserBriefResults {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
