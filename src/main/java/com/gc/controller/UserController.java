@@ -3,6 +3,7 @@ package com.gc.controller;
 import com.gc.Utils.Config;
 import com.gc.Utils.Utils;
 import com.gc.ViewModel.user.UserBriefInfo;
+import com.gc.ViewModel.user.UserIds;
 import com.gc.model.Role;
 import com.gc.model.User;
 import com.gc.repository.repository.RoleRepository;
@@ -87,7 +88,17 @@ public class UserController {
         } catch (Exception exception) {
             return new UserBriefInfo(2);
         }
+    }
 
+    @RequestMapping(value = "/getByUsername", method = RequestMethod.GET)
+    @ResponseBody
+    public UserIds getByUsername(@RequestParam(value = "username") String username) {
+        try {
+            List<User> users = userRepository.findByUsernameLike(username);
+            return new UserIds(0, users);
+        } catch (Exception exception) {
+            return new UserIds(2);
+        }
     }
 
     @RequestMapping(value = "/test")
