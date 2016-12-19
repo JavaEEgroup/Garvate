@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 public class UserController {
@@ -112,4 +111,28 @@ public class UserController {
     public String roleTest() {
         return "roleTest";
     }
+
+    @RequestMapping(value = "/modify")
+    @ResponseBody
+    public HashMap<String,Long> modify(
+            HttpServletRequest request,
+            @RequestParam(value = "username") String username,
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "phone") String phone) {
+
+        try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setPhone(phone);
+            userRepository.save(user);
+
+            return Utils.getStateMessage(0L);
+        }
+        catch (Exception e) {
+            return Utils.getStateMessage(1L);
+        }
+    }
+
 }
