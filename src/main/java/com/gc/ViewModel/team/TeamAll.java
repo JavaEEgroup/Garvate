@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 public class TeamAll {
     private int status;
     private List<TeamRoughInf> results;
+    private int page_sum;
 
     public TeamAll(){
 
@@ -22,6 +23,14 @@ public class TeamAll {
         for (Team team : teams) {
             results.add(new TeamRoughInf(team));
         }
+    }
+
+    public int getPage_sum() {
+        return page_sum;
+    }
+
+    public void setPage_sum(int page_sum) {
+        this.page_sum = page_sum;
     }
 
     public TeamAll(int state) {
