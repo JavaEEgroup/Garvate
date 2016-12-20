@@ -10,4 +10,5 @@ import java.util.List;
 
 public interface CreditRepository extends JpaRepository<Credit,Long> {
     List<Credit> findByUser(Pageable pageable, User user);
+    List<Credit> findByUser(User user);
 }
