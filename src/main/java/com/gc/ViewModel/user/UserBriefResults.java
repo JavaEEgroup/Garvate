@@ -17,7 +17,7 @@ public class UserBriefResults {
 //        if(user.getType() != null)this.type = user.getType().equals(2) ? "学生" : "管理员";
 
         if (!user.getRoleList().isEmpty()) {
-            this.type = user.getRoleList().get(0).getDesc();
+                this.type = user.getRoleList().get(0).getDesc();
         }
 
     }
