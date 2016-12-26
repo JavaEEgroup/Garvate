@@ -66,6 +66,10 @@ public class User {
     @OneToMany
     private List<Article> articleList;
 
+    @JoinColumn(name = "user_id")
+    @OneToMany
+    private List<News> newsList;
+
     @JoinColumn(name = "to_user_id")
     @OneToMany
     private List<Comment> toCommentList;
@@ -261,5 +265,13 @@ public class User {
 
     public void setVoteItemList(List<VoteItem> voteItemList) {
         this.voteItemList = voteItemList;
+    }
+
+    public List<News> getNewsList() {
+        return newsList;
+    }
+
+    public void setNewsList(List<News> newsList) {
+        this.newsList = newsList;
     }
 }
