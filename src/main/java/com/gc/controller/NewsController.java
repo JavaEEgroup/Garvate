@@ -7,6 +7,8 @@ import com.gc.model.User;
 import com.gc.repository.repository.NewsRepository;
 import com.gc.repository.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,14 +28,20 @@ public class NewsController {
     NewsRepository newsRepository;
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public NewsList getUserNews(HttpServletRequest request) {
+    public NewsList getUserNews(
+            HttpServletRequest request,
+            @RequestParam(value = "numResults",defaultValue = "20")int numResults,
+            @RequestParam(value = "resultOffset", defaultValue = "0")int resultOffset) {
 
         try {
 
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
 
-            return new NewsList(NewsList.SUCCESS, user.getNewsList());
+            Page<News> newses = newsRepository.findByUser(user, new PageRequest(resultOffset,numResults));
+
+            return new NewsList(NewsList.SUCCESS, newses.getContent(), newses.getTotalPages());
+//            return new NewsList(NewsList.ERROR);
         }
         catch (Exception e) {
             return new NewsList(NewsList.ERROR);

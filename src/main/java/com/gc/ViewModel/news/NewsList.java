@@ -13,6 +13,8 @@ public class NewsList {
 
     private List<News> results;
 
+    private int page_sum;
+
     public NewsList() {
     }
 
@@ -20,12 +22,13 @@ public class NewsList {
         this.status = status;
     }
 
-    public NewsList(int status, List<com.gc.model.News> results) {
+    public NewsList(int status, List<com.gc.model.News> results, int page_sum) {
         this.status = status;
         this.results =  new ArrayList<>();
         for(com.gc.model.News news : results) {
             this.results.add(new News(news));
         }
+        this.page_sum = page_sum;
     }
 
     public int getStatus() {
@@ -42,5 +45,13 @@ public class NewsList {
 
     public void setResults(List<News> results) {
         this.results = results;
+    }
+
+    public int getPage_sum() {
+        return page_sum;
+    }
+
+    public void setPage_sum(int page_sum) {
+        this.page_sum = page_sum;
     }
 }

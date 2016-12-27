@@ -3,6 +3,7 @@ package com.gc.ViewModel.news;
 
 public class News {
 
+    private Long id;
     private String create_time;
     private String title;
     private String content;
@@ -13,6 +14,7 @@ public class News {
     }
 
     public News(com.gc.model.News news) {
+        this.id = news.getId();
         this.create_time = news.getCreate_time().toString();
         this.title = news.getTitle();
         this.content = news.getContent();
@@ -58,5 +60,13 @@ public class News {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
