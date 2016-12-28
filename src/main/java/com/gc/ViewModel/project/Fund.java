@@ -51,4 +51,12 @@ public class Fund {
     public void setEdit_time(String edit_time) {
         this.edit_time = edit_time;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
