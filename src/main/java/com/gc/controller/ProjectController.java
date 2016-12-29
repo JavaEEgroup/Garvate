@@ -96,7 +96,7 @@ public class ProjectController {
             User user = userRepository.findByAccount(user_account);
 
             // Check if user has authority
-            if(!project.hasUser(user)) return new ProjectDetails(ProjectDetails.NO_AUTHORITY);
+            if(!project.hasUser(user) && !Utils.checkAdmin(user)) return new ProjectDetails(ProjectDetails.NO_AUTHORITY);
 
             ProjectDetails projectDetails = new ProjectDetails(ProjectDetails.SUCCESS, project);
             projectDetails.setUser_id(user.getId());
@@ -130,7 +130,7 @@ public class ProjectController {
             if(team == null) return  new ProjectAdd(ProjectAdd.TEAM_NOT_FOUND);
 
             // User has no authority
-            if(!team.getCaptain().getId().equals(user.getId())) return new ProjectAdd(ProjectAdd.NO_AUTHORITY);
+            if(!team.getCaptain().getId().equals(user.getId()) && !Utils.checkAdmin(user)) return new ProjectAdd(ProjectAdd.NO_AUTHORITY);
 
             // Already has project
             if(team.getProject() != null) return new ProjectAdd(ProjectAdd.ALREADY_HAS_PROJECT);
