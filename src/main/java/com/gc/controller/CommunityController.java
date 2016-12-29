@@ -43,6 +43,9 @@ public class CommunityController {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private NewsRepository newsRepository;
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     private CommunityAll all(
             HttpServletRequest request,
@@ -205,6 +208,12 @@ public class CommunityController {
 
         commentRepository.save(comment);
 
+        String title = "评论提醒";
+        String newsContent = "用户" + user.getUsername() + "评论了您的帖子。";
+        String url = "/communities/" + id;
+        News news = new News(title, newsContent, url, article.getUser());
+        newsRepository.save(news);
+
         return new Entry(0);
     }
 
@@ -224,6 +233,12 @@ public class CommunityController {
         Comment comment = new Comment(content, user, toUser, parent_comment, article);
 
         commentRepository.save(comment);
+
+        String title = "评论回复提醒";
+        String newsContent = "用户" + user.getUsername() + "回复了您的评论。";
+        String url = "/communities/" + article_id;
+        News news = new News(title, newsContent, url, toUser);
+        newsRepository.save(news);
 
         return new Entry(0);
     }
@@ -269,6 +284,5 @@ public class CommunityController {
         catch (Exception e) {
             return new CommunityAll(1);
         }
-
     }
 }
