@@ -86,7 +86,7 @@ public class NewsController {
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
 
-            News news = new News(title, content, true, url, user);
+            News news = new News(title, content, url, user);
 
             newsRepository.save(news);
 
