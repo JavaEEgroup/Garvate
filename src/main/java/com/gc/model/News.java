@@ -37,10 +37,10 @@ public class News {
     public News() {
     }
 
-    public News(String title, String content, boolean visible, String url, User user) {
+    public News(String title, String content, String url, User user) {
         this.title = title;
         this.content = content;
-        this.visible = visible;
+        this.visible = true;
         this.url = url;
         this.user = user;
         this.create_time = Utils.getCurrentTime();

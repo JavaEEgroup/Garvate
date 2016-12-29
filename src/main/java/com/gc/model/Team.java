@@ -1,13 +1,12 @@
 package com.gc.model;
 
 import com.gc.Utils.Config;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -66,6 +65,18 @@ public class Team {
         this.maxCount = maxCount;
 //        this.createTime = new Timestamp(1);
 //        this.updateTime = this.createTime;
+    }
+
+    public List<User> getAllUser() {
+        ArrayList<User> userLists = new ArrayList<>();
+        userLists.add(this.captain);
+        for(TeamUser teamUser : this.getTeamUserList()) {
+            User user1 = teamUser.getMember();
+            if(teamUser.getState().getDescription().equals(Config.TEAM_STATE_INTEAM)) {
+                userLists.add(user1);
+            }
+        }
+        return userLists;
     }
 
     public boolean hasUser(User user) {

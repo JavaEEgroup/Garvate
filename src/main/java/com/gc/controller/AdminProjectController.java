@@ -3,8 +3,10 @@ package com.gc.controller;
 
 import com.gc.Utils.Utils;
 import com.gc.ViewModel.project.ProjectDetails;
+import com.gc.model.News;
 import com.gc.model.Project;
 import com.gc.model.User;
+import com.gc.repository.repository.NewsRepository;
 import com.gc.repository.repository.ProjectRepository;
 import com.gc.repository.repository.ProjectStatusRepository;
 import com.gc.repository.repository.UserRepository;
@@ -29,6 +31,9 @@ public class AdminProjectController {
     @Autowired
     private ProjectStatusRepository projectStatusRepository;
 
+    @Autowired
+    private NewsRepository newsRepository;
+
     @RequestMapping(value = "/manage", method = RequestMethod.GET)
     private ProjectDetails manage(
             HttpServletRequest request,
@@ -48,11 +53,25 @@ public class AdminProjectController {
             // User has no authority
             if(!Utils.checkAdmin(user)) return new ProjectDetails(ProjectDetails.NO_AUTHORITY);
 
+            String name = project.getName();
+            String preStatus = project.getProject_status().getDescription();
+
             if (accept) {
                 accept(project);
             }
             else {
                 refuse(project);
+            }
+
+            String nowStatus = project.getProject_status().getDescription();
+
+            String title = "项目状态修改提醒";
+            String content = "您的项目：" + name + "的状态由" + preStatus + "修改为" + nowStatus + "。";
+            String url = "/projects/" + project_id;
+
+            for(User member : project.getTeam().getAllUser()) {
+                News news = new News(title, content, url, member);
+                newsRepository.save(news);
             }
 
             projectRepository.save(project);
