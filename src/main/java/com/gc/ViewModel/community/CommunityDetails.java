@@ -24,6 +24,8 @@ public class CommunityDetails {
     private ArrayList<Integer> user_votes;
     private ArrayList<CommunityComment> comments;
 
+    private boolean vote_or_not;
+
     public CommunityDetails(int state) {
         this.status = state;
     }
@@ -182,6 +184,15 @@ public class CommunityDetails {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public boolean isVote_or_not() {
+        return vote_or_not;
+    }
+
+    public void setVote_or_not(boolean vote_or_not) {
+        this.vote_or_not = vote_or_not;
+    }
+
 }
 
 class CommunityVote {
