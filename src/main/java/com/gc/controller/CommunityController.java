@@ -216,6 +216,7 @@ public class CommunityController {
 
         return new Entry(0);
     }
+
     @RequestMapping(value = "/vote/add", method = RequestMethod.POST)
     private Entry addVote(HttpServletRequest request,
                           @RequestParam(value = "vote_id")Long id) {

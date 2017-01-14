@@ -254,11 +254,13 @@ class CommunityVotes {
     private String title;
     private Integer rank;
     private int vote_count;
+    private Long vote_id;
 
     public CommunityVotes(VoteItem voteItem) {
         this.title = voteItem.getTitle();
         this.rank = voteItem.getRank();
         this.vote_count = voteItem.getUserList().size();
+        this.vote_id = voteItem.getId();
     }
 
     public String getTitle() {
@@ -283,6 +285,14 @@ class CommunityVotes {
 
     public void setVote_count(int vote_count) {
         this.vote_count = vote_count;
+    }
+
+    public Long getVote_id() {
+        return vote_id;
+    }
+
+    public void setVote_id(Long vote_id) {
+        this.vote_id = vote_id;
     }
 }
 
