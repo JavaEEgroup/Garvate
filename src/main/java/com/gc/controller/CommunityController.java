@@ -217,6 +217,26 @@ public class CommunityController {
         return new Entry(0);
     }
 
+    @RequestMapping(value = "/vote/add", method = RequestMethod.POST)
+    private Entry addVote(HttpServletRequest request,
+                          @RequestParam(value = "vote_id")Long id) {
+
+        try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+
+            VoteItem voteItem = voteItemRepository.findOne(id);
+            List<User> userList = voteItem.getUserList();
+            userList.add(user);
+            voteItem.setUserList(userList);
+            voteItemRepository.save(voteItem);
+            return new Entry(0);
+        } catch (Exception e) {
+            return new Entry(1);
+        }
+    }
+
+
     @RequestMapping(value = "/recomment/add", method = RequestMethod.POST)
     private Entry addRecomment(HttpServletRequest request,
                               @RequestParam(value = "content")String content,
