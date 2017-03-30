@@ -39,7 +39,7 @@ public class TeamController {
                                       @RequestParam(value = "name")String teamName,
                                       @RequestParam(value = "tag_id_list")List<Long> tagIDs){
         try {
-            System.out.println("descriptin: "+desc);
+            System.out.println("description: "+desc);
             System.out.println("max_count: " + maxCount);
             System.out.println("name: " + teamName);
             System.out.println("tag_id_list: " + tagIDs);
