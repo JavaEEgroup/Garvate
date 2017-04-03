@@ -224,7 +224,7 @@ public class CommunityController {
         try {
             String user_account = request.getRemoteUser();
             User user = userRepository.findByAccount(user_account);
-
+            System.out.println("---------->" + id);
             VoteItem voteItem = voteItemRepository.findOne(id);
             List<User> userList = voteItem.getUserList();
             userList.add(user);

@@ -1,5 +1,6 @@
 package com.gc.ViewModel.team;
 
+import com.gc.model.ProjectType;
 import com.gc.model.Tag;
 import com.gc.model.Team;
 import com.gc.model.TeamUser;
@@ -13,6 +14,10 @@ public class TeamDetails {
 
     private TeamDetailInf results;
 
+    private Boolean create;
+
+    private List<com.gc.ViewModel.project.ProjectType> types;
+
     public TeamDetails() {
 
     }
@@ -24,6 +29,16 @@ public class TeamDetails {
     public TeamDetails(int state, Team team) {
         this(state);
 
+        results = new TeamDetailInf(team);
+    }
+
+    public TeamDetails(int state, Team team, Boolean create, List<ProjectType> types) {
+        this(state);
+        this.create = (create != null) && create;
+        this.types = new ArrayList<>();
+        for(ProjectType type : types) {
+            this.types.add(new com.gc.ViewModel.project.ProjectType(type));
+        }
         results = new TeamDetailInf(team);
     }
 
@@ -41,6 +56,22 @@ public class TeamDetails {
 
     public void setResults(TeamDetailInf results) {
         this.results = results;
+    }
+
+    public Boolean getCreate() {
+        return create;
+    }
+
+    public void setCreate(Boolean create) {
+        this.create = create;
+    }
+
+    public List<com.gc.ViewModel.project.ProjectType> getTypes() {
+        return types;
+    }
+
+    public void setTypes(List<com.gc.ViewModel.project.ProjectType> types) {
+        this.types = types;
     }
 }
 

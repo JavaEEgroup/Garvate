@@ -115,7 +115,7 @@ public class ProjectController {
             HttpServletRequest request,
             @RequestParam(value = "team_id")Long team_id,
             @RequestParam(value = "name")String name,
-            @RequestParam(value = "description")String description,
+            @RequestParam(value = "description", defaultValue = "")String description,
             @RequestParam(value = "note", defaultValue = "")String note,
             @RequestParam(value = "project_type_id")Long project_type_id) {
 

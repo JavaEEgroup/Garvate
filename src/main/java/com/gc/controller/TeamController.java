@@ -30,6 +30,8 @@ public class TeamController {
     private TeamStateRepository teamStateRepository;
     @Autowired
     private TeamUserRepository teamUserRepository;
+    @Autowired
+    private ProjectTypeRepository projectTypeRepository;
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
@@ -83,11 +85,23 @@ public class TeamController {
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.GET)
-    public TeamDetails getDetails(@RequestParam(value = "team_id") Long team_id) {
+    public TeamDetails getDetails(
+            HttpServletRequest request,
+            @RequestParam(value = "team_id") Long team_id) {
         try {
+            String user_account = request.getRemoteUser();
+            User user = userRepository.findByAccount(user_account);
+
             Team team = teamRepository.findOne(team_id);
-            return new TeamDetails(0, team);
+
+            if(team == null) return new TeamDetails(0);
+
+            Boolean create = (team.getProject() == null) && user.getId().equals(team.getCaptain().getId());
+            List<ProjectType> types = projectTypeRepository.findByOpen(true);
+
+            return new TeamDetails(0, team, create, types);
         } catch (Exception exception) {
+
             return new TeamDetails(0);
         }
     }
@@ -167,7 +181,6 @@ public class TeamController {
         } catch (Exception exception) {
             return Utils.getStateMessage(2L);
         }
-
     }
 
     @RequestMapping(value = "/member/invite", method = RequestMethod.POST)
