@@ -101,6 +101,7 @@ public class ProjectController {
             ProjectDetails projectDetails = new ProjectDetails(ProjectDetails.SUCCESS, project);
             projectDetails.setUser_id(user.getId());
             projectDetails.setUsername(user.getUsername());
+            projectDetails.setModifiable(project.modifiable() && project.getTeam().getCaptain().getId().equals(user.getId()));
 
             return projectDetails;
         }
@@ -183,8 +184,10 @@ public class ProjectController {
             if(!note.equals("!@#")) project.setNote(note);
             projectRepository.save(project);
 
+            ProjectDetails projectDetails = new ProjectDetails(ProjectDetails.SUCCESS, project);
+            projectDetails.setModifiable(project.modifiable() && project.getTeam().getCaptain().getId().equals(user.getId()));
             // Modify successfully
-            return new ProjectDetails(ProjectDetails.SUCCESS, project);
+            return projectDetails;
         }
         catch (Exception e) {
             // Extra error

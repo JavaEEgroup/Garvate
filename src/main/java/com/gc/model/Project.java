@@ -70,7 +70,7 @@ public class Project {
     }
 
     public boolean modifiable() {
-        return project_status.getId().equals(12L);
+        return project_status.getId().equals(1L);
     }
 
     public Long getId() {

@@ -29,6 +29,7 @@ public class ProjectDetails {
     private ProjectType project_type;
     private List<Fund> funds;
     private List<ProjectDocument> documents;
+    private Boolean modifiable;
 
     public ProjectDetails() {
     }
@@ -156,5 +157,13 @@ public class ProjectDetails {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Boolean getModifiable() {
+        return modifiable;
+    }
+
+    public void setModifiable(Boolean modifiable) {
+        this.modifiable = modifiable;
     }
 }
