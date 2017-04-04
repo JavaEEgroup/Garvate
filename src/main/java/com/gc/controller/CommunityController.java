@@ -84,18 +84,18 @@ public class CommunityController {
             article.addView_Count();
             articleRepository.save(article);
 
-            String user_account = request.getRemoteUser();
-//            User user = userRepository.findByAccount(user_account);
             User user = article.getUser();
             communityDetails.setUser_id(user.getId());
             communityDetails.setUsername(user.getUsername());
 
             ArrayList<Integer> userVotes = new ArrayList<>();
-            for(VoteItem voteItem : user.getVoteItemList()) {
-                for(VoteItem voteItem1 : article.getVote().getVoteItemList())
-                    if(Objects.equals(voteItem.getId(), voteItem1.getId())) {
-                        userVotes.add(voteItem.getRank());
-                    }
+            if (article.getVote() != null) {
+                for(VoteItem voteItem : user.getVoteItemList()) {
+                    for(VoteItem voteItem1 : article.getVote().getVoteItemList())
+                        if(Objects.equals(voteItem.getId(), voteItem1.getId())) {
+                            userVotes.add(voteItem.getRank());
+                        }
+                }
             }
 
             communityDetails.setUser_votes(userVotes);
