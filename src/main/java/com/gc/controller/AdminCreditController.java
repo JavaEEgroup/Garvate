@@ -51,6 +51,7 @@ public class AdminCreditController {
                 credit.setValue(value);
             }
             credit.setCreditStatus(creditStatus);
+            creditRepository.save(credit);
             return new Entry(0);
         } catch (Exception exception) {
             return new Entry(2);
